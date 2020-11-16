@@ -1,0 +1,166 @@
+<html>
+  <head>
+    <script src="https://unpkg.com/codemirror@5.58.2/lib/codemirror.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/codemirror@5.58.2/lib/codemirror.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/codemirror@5.58.2/theme/cobalt.css"
+    />
+    <script src="https://unpkg.com/codemirror@5.58.2/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="https://unpkg.com/codemirror@5.58.2/mode/javascript/javascript.js"></script>
+    <script src="https://unpkg.com/codemirror@5.58.2/mode/xml/xml.js"></script>
+    <script src="https://unpkg.com/codemirror@5.58.2/mode/css/css.js"></script>
+    <script src="https://unpkg.com/darkreader@4.9.22/darkreader.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://yash-singh1.github.io/monkeyIDE/style.css"
+    />
+    <link rel="stylesheet" href="index.css" />
+    <link rel="stylesheet" href="customTheme.css" />
+  </head>
+  <body>
+    <h3 id="current-panel-wrapper">
+      Current Panel: <strong id="current-panel"></strong>
+    </h3>
+    <img src="img/save.png" class="savePNG" id="save" alt="save" title="Save" />
+    <img
+      src="img/cross.png"
+      id="create"
+      class="crossPNG"
+      alt="create"
+      title="Create"
+    />
+    <a id="preview-panel" target="_blank"
+      ><img
+        src="img/preview.png"
+        class="previewPNG"
+        alt="preview"
+        title="Preview"
+    /></a>
+    <img
+      src="img/switch.png"
+      class="switchPNG"
+      alt="switch"
+      title="Switch"
+      id="switch"
+    />
+    <img
+      src="img/delete.png"
+      class="deletePNG"
+      alt="delete"
+      title="Delete"
+      id="delete"
+    />
+    <img
+      src="img/deploy.png"
+      class="deployPNG"
+      alt="deploy"
+      title="Deploy"
+      id="deploy"
+    />
+    <img
+      src="img/duplicate.svg"
+      class="duplicatePNG"
+      alt="duplicate"
+      title="Duplicate"
+      id="duplicate"
+    />
+    <script src="https://yash-singh1.github.io/monkeyIDE/index.js"></script>
+    <dialog id="favDialog">
+      <form method="dialog">
+        <input id="name" autocapitalize="off" autocomplete="off" />
+        <p id="status">That input is invalid</p>
+        <div id="styles-setter">
+          <p id="styles-label">Styles:</p>
+          <input id="style-number" value="0" type="number" min="0" step="1" />
+        </div>
+        <div id="scripts-setter">
+          <p id="scripts-label">Scripts:</p>
+          <input id="scripts-number" value="0" type="number" min="0" step="1" />
+        </div>
+        <menu class="menus">
+          <button id="confirmBtn" class="actions newActions">Create</button>
+          <button class="actions newActions">Cancel</button>
+        </menu>
+      </form>
+    </dialog>
+    <dialog id="switchDialog">
+      <form method="dialog">
+        <label for="panelData">Which panel would you like to switch to?</label>
+        <select class="select-css" name="panelData" id="panelData"></select>
+        <menu class="menus">
+          <button id="confirmBtn2" class="actions newActions">Switch</button>
+          <button class="actions newActions">Cancel</button>
+        </menu>
+      </form>
+    </dialog>
+    <dialog id="deployDialog">
+      <form method="dialog">
+        <div id="deployChecks"></div>
+        <menu class="menus">
+          <button id="confirmBtn3" class="actions newActions">Deploy</button>
+          <button class="actions newActions">Cancel</button>
+        </menu>
+      </form>
+    </dialog>
+    <dialog id="deleteDialog">
+      <form method="dialog">
+        <div id="deleteChecks"></div>
+        <menu class="menus">
+          <button id="confirmBtn4" class="actions newActions">Delete</button>
+          <button class="actions newActions">Cancel</button>
+        </menu>
+      </form>
+    </dialog>
+    <dialog id="duplicateDialog">
+      <form method="dialog">
+        <input id="duplicateName" autocapitalize="off" autocomplete="off" />
+        <p id="duplicateStatus">That input is invalid</p>
+        <menu class="menus">
+          <button id="confirmBtn5" class="actions newActions">Create</button>
+          <button class="actions newActions">Cancel</button>
+        </menu>
+      </form>
+    </dialog>
+    <dialog id="done-saved-dialog">
+      <form method="dialog">
+        <img id="done-saving-check" src="img/form-checkmark.png" />
+        <h1 id="done-with-it">Saved!</h1>
+        <menu class="menus">
+          <button class="actions newActions">Close</button>
+        </menu>
+      </form>
+    </dialog>
+    <dialog id="templateOrBlank">
+      <form method="dialog">
+        <menu class="menus">
+          <button class="template" id="createBlank">
+            <img id="templateImg" src="img/blank.png" />
+            <br />
+            Blank
+          </button>
+          <button class="template" id="createTemplate">
+            <img id="templateImg" src="img/template.jpeg" />
+            <br />
+            Template
+          </button>
+          <button class="actions newActions">Close</button>
+        </menu>
+      </form>
+    </dialog>
+    <dialog id="templateChooser">
+      <form method="dialog">
+        <menu class="menus" id="templateMenu"></menu>
+      </form>
+    </dialog>
+    <!-- <button id="duplicate" class="actions">Duplicate Panel</button> -->
+    <div id="notSaved" class="savedBox"></div>
+    <div id="cookie-banner" style="display: none">
+      <p>This site uses cookies<button id="close">&times;</button></p>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

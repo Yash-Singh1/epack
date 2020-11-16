@@ -1,0 +1,28 @@
+.CodeMirror-linenumber {
+  color: orangered !important;
+}
+
+.cm-variable,
+.cm-property {
+  color: goldenrod !important;
+}
+
+span[role="presentation"] {
+  color: rgb(217, 164, 233);
+}
+
+.cm-attribute {
+  color: rgb(250, 0, 0) !important;
+}
+
+.cm-tag.cm-bracket {
+  color: lightsalmon !important;
+}
+
+.cm-keyword {
+  color: darkolivegreen !important;
+}
+
+.CodeMirror-cursor {
+  border-left: 1px solid orangered !important;
+}

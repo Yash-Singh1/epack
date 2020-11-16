@@ -1,0 +1,20 @@
+{
+  "name": "MonkeyJS",
+  "externally_connectable": {
+    "matches": ["*://localhost:*/*", "*://192.168.86.28:*/*"],
+    "ids": ["*"]
+  },
+  "background": {
+    "page": "background.html",
+    "persistent": false
+  },
+  "permissions": ["storage"],
+  "version": "1.0",
+  "description": "Add in DevTools from the browser.",
+  "manifest_version": 2,
+  "minimum_chrome_version": "17.0",
+  "devtools_page": "devtools.html",
+  "sandbox": {
+    "pages": ["sandbox.html"]
+  }
+}
