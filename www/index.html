@@ -82,8 +82,8 @@
           <input id="scripts-number" value="0" type="number" min="0" step="1" />
         </div>
         <menu class="menus">
-          <button id="confirmBtn" class="actions newActions">Create</button>
-          <button class="actions newActions">Cancel</button>
+          <button id="confirmBtn" class="actions">Create</button>
+          <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
@@ -92,8 +92,8 @@
         <label for="panelData">Which panel would you like to switch to?</label>
         <select class="select-css" name="panelData" id="panelData"></select>
         <menu class="menus">
-          <button id="confirmBtn2" class="actions newActions">Switch</button>
-          <button class="actions newActions">Cancel</button>
+          <button id="confirmBtn2" class="actions">Switch</button>
+          <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
@@ -101,8 +101,8 @@
       <form method="dialog">
         <div id="deployChecks"></div>
         <menu class="menus">
-          <button id="confirmBtn3" class="actions newActions">Deploy</button>
-          <button class="actions newActions">Cancel</button>
+          <button id="confirmBtn3" class="actions">Deploy</button>
+          <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
@@ -110,8 +110,8 @@
       <form method="dialog">
         <div id="deleteChecks"></div>
         <menu class="menus">
-          <button id="confirmBtn4" class="actions newActions">Delete</button>
-          <button class="actions newActions">Cancel</button>
+          <button id="confirmBtn4" class="actions">Delete</button>
+          <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
@@ -120,8 +120,8 @@
         <input id="duplicateName" autocapitalize="off" autocomplete="off" />
         <p id="duplicateStatus">That input is invalid</p>
         <menu class="menus">
-          <button id="confirmBtn5" class="actions newActions">Create</button>
-          <button class="actions newActions">Cancel</button>
+          <button id="confirmBtn5" class="actions">Create</button>
+          <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
@@ -130,7 +130,7 @@
         <img id="done-saving-check" src="img/form-checkmark.png" />
         <h1 id="done-with-it">Saved!</h1>
         <menu class="menus">
-          <button class="actions newActions">Close</button>
+          <button class="actions">Close</button>
         </menu>
       </form>
     </dialog>
@@ -138,16 +138,16 @@
       <form method="dialog">
         <menu class="menus">
           <button class="template" id="createBlank">
-            <img id="templateImg" src="img/blank.png" />
+            <img class="templateImg" src="img/blank.png" />
             <br />
             Blank
           </button>
           <button class="template" id="createTemplate">
-            <img id="templateImg" src="img/template.jpeg" />
+            <img class="templateImg" src="img/template.jpeg" />
             <br />
             Template
           </button>
-          <button class="actions newActions">Close</button>
+          <button class="actions">Close</button>
         </menu>
       </form>
     </dialog>
@@ -156,7 +156,6 @@
         <menu class="menus" id="templateMenu"></menu>
       </form>
     </dialog>
-    <!-- <button id="duplicate" class="actions">Duplicate Panel</button> -->
     <div id="notSaved" class="savedBox"></div>
     <div id="cookie-banner" style="display: none">
       <p>This site uses cookies<button id="close">&times;</button></p>
