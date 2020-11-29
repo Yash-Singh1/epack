@@ -31,7 +31,9 @@ When proposing major changes, the above method can be inefficient and tiring. Th
 - Fork the repository by clicking on the button on the top right labeled "Fork":
   ![Fork](img/fork.png)
 - Now copy the link to your codebase:
-  ![Copy Link](img/copyURL.gif)
+
+![Copy Link](img/copyURL.gif)
+
 - Inside the terminal, run: `git clone URL` and replace `URL` with the URL that you previously copied
 - Make your changes from your choice's code editor
 - Once you are done, run `git add .` and `git commit -m MSG` replacing `MSG` with your commit message
