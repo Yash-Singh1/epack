@@ -9,5 +9,3 @@ This is the roadmap for `extpark`:
 - Provide the panel with the ExtensionPanel object to allow handler registration
 - Create an action to export the extension
 - Use some CodeMirror addons
-- Add in issue templates
-- Create a pull request template
