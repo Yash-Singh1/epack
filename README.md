@@ -1,6 +1,6 @@
-# extpark
+# `extpark`
 
-extpark (**EXT**ension **PARK**) is a simple to use GUI interface that provides with an easier way to make extensions. Currently it is focused on making chrome devtools extensions but has plans to expand later.
+`extpark` (**EXT**ension **PARK**) is a simple to use GUI interface that provides with an easier way to make extensions. Currently it is focused on making chrome devtools extensions but has plans to expand later.
 
 ## Documentation
 
