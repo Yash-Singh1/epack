@@ -187,6 +187,7 @@ ide.switchPanel = function (current, newer) {
   ide.large(JSON.parse(handleNull(newer)));
   ide.currentPanel = newer;
   byId("current-panel").innerHTML = newer.substring(4);
+  resizeTabs();
 };
 
 function constructSelect() {
@@ -196,6 +197,12 @@ function constructSelect() {
     returnString += '<option value="' + element + '">' + element + "</option>";
   }
   return returnString;
+}
+
+function resizeTabs() {
+  document.querySelectorAll('.tabcontent > .CodeMirror').forEach((element) => {
+    element.CodeMirror.setSize(...sizes);
+  });
 }
 
 // #endregion
@@ -220,6 +227,7 @@ var deleteChecks = byId("deleteChecks");
 var duplicateDialog = byId("duplicateDialog");
 var duplicateBtn = byId("confirmBtn5");
 var duplicateStatus = byId("duplicateStatus");
+const sizes = ["default", "100%"]
 var nameOfPanelCurrentValue = "";
 nameOfPanel.value = "";
 var duplicateNameCurrentValue = "";
@@ -254,6 +262,7 @@ if (
   JSON.parse(localStorage.getItem(ide.currentPanel)) !== null
 ) {
   ide.large(JSON.parse(localStorage.getItem(ide.currentPanel)));
+  resizeTabs();
 }
 
 // #endregion

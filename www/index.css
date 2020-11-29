@@ -212,6 +212,10 @@
   margin-left: 10px;
 }
 
+.tabcontent {
+  height: 80%;
+}
+
 /* #endregion */
 
 /* #region CSS specific for dialogs and popups */
