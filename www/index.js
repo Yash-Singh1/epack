@@ -630,7 +630,12 @@ DarkReader.enable(
     textStroke: 0.3,
   },
   {
-    invert: [".switchPNG", ".deletePNG", ".deployPNG", ".duplicatePNG"],
+    invert: [
+      ".switchPNG",
+      ".duplicatePNG",
+      ".previewPNG",
+      'img[src="img/blank.png"]',
+    ],
   }
 );
 

@@ -42,21 +42,15 @@
   right: 94px;
 }
 
-.crossPNG {
+.createPNG {
   height: 6%;
   position: absolute;
   top: 93%;
   right: 15px;
   cursor: pointer;
-  background-color: rgb(40, 17, 122);
+  background-color: rgb(41, 120, 139);
   background-position: top;
-  border-radius: 20px;
-  transition: 2s;
-}
-
-.crossPNG:hover {
-  background-color: rgba(112, 111, 172, 0.445);
-  transition: 2s;
+  border-radius: 10px;
 }
 
 .switchPNG {
@@ -70,7 +64,7 @@
 .deletePNG {
   height: 2.7%;
   position: absolute;
-  top: 8px;
+  top: 9px;
   right: 26px;
   cursor: pointer;
 }
@@ -185,6 +179,10 @@
   margin-left: 35%;
 }
 
+#done-saved-dialog {
+  width: 25%;
+}
+
 .savedBox {
   background-color: rgb(44, 10, 83) !important;
   width: 5%;
@@ -197,7 +195,7 @@
 }
 
 #done-with-it {
-  margin-left: 46%;
+  margin-left: 45%;
   color: white;
 }
 

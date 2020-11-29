@@ -26,4 +26,4 @@ The site provides a UI for the user to code in the IDE and create panels. When t
 
 ## Contributing
 
-Contributions are greatly welcomed!
+Contributions are greatly welcomed! Please see the `CONTRIBUTING.md` for more information on how to contribute.

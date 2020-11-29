@@ -1,6 +1,6 @@
 # Roadmap
 
-This is the roadmap for `extpark`.
+This is the roadmap for `extpark`:
 
 - Add a new streak of icons for the toolbar in the top right
 - Create a logo
@@ -8,5 +8,6 @@ This is the roadmap for `extpark`.
 - Support buttons for panels
 - Provide the panel with the ExtensionPanel object to allow handler registration
 - Create an action to export the extension
-- Remove unused CSS classes
 - Use some CodeMirror addons
+- Add in issue templates
+- Create a pull request template
