@@ -4,7 +4,7 @@
  * @returns {Element} Returns the element welcomeElem which is the <p> tag welcome tag
  */
 function welcomeElement(bool) {
-  let welcomeElem = document.getElementById("welcome");
+  let welcomeElem = document.getElementById('welcome');
   if (bool == true) {
     console.log(welcomeElem);
   }
@@ -12,21 +12,21 @@ function welcomeElement(bool) {
 }
 
 /**
- * Resets the welcome message to default: Welcome to MonkeyJS!
+ * Resets the welcome message to default: Welcome to extpark!
  * @param {boolean} bool Prints out that the welcome message is reset
  * @returns {boolean} Returns whether there was a failure or not
  */
 function resetWelcomeMessage(bool) {
   try {
-    chrome.storage.sync.set({ welcome: "Welcome to MonkeyJS!" });
+    chrome.storage.sync.set({ welcome: 'Welcome to extpark!' });
   } catch (err) {
     if (bool == true) {
-      console.error("Failed to reset welcome message. " + err);
+      console.error('Failed to reset welcome message. ' + err);
     }
     return false;
   }
   if (bool == true) {
-    console.log("Reseted Welcome Message to => Welcome to MonkeyJS!");
+    console.log('Reseted Welcome Message to => Welcome to extpark!');
   }
   return true;
 }
@@ -38,15 +38,15 @@ function resetWelcomeMessage(bool) {
  */
 function removeWelcomeMessage(bool) {
   try {
-    chrome.storage.sync.set({ welcome: "" });
+    chrome.storage.sync.set({ welcome: '' });
   } catch (err) {
     if (bool == true) {
-      console.log("Failed to remove welcome message. " + err);
+      console.log('Failed to remove welcome message. ' + err);
     }
     return false;
   }
   if (bool == true) {
-    console.log("Successfully removed welcome message");
+    console.log('Successfully removed welcome message');
   }
   return true;
 }
@@ -58,11 +58,11 @@ function removeWelcomeMessage(bool) {
  */
 function setWelcomeMessage(string) {
   if (string === undefined) {
-    console.info("No string value specified, setting to: " + '""');
-    string = "";
+    console.info('No string value specified, setting to: ' + '""');
+    string = '';
   }
-  if (typeof string !== "string") {
-    console.error("Please specify a string");
+  if (typeof string !== 'string') {
+    console.error('Please specify a string');
     return false;
   }
   try {
@@ -74,7 +74,7 @@ function setWelcomeMessage(string) {
 }
 
 /**
- * Removes all panels inside the storage of MonkeyJS
+ * Removes all panels inside the storage of extpark
  * @param {boolean} bool console.logs that the cached panels are removed
  * @returns {boolean} Returns whether there was a failure or not
  */
@@ -83,12 +83,12 @@ function deletePanels(bool) {
     chrome.storage.sync.set({ panels: [] });
   } catch (err) {
     if (bool == true) {
-      console.log("Failed to remove cached panels. " + err);
+      console.log('Failed to remove cached panels. ' + err);
     }
     return false;
   }
   if (bool == true) {
-    console.log("Successfully removed all cached panels");
+    console.log('Successfully removed all cached panels');
   }
   return true;
 }

@@ -1,9 +1,9 @@
-chrome.storage.sync.get(["welcome"], function (data) {
+chrome.storage.sync.get(['welcome'], function (data) {
   if (data.welcome != null) {
     if (data.welcome != undefined) {
       console.log(data.welcome);
     } else {
-      chrome.storage.sync.set({ welcome: "" });
+      chrome.storage.sync.set({ welcome: '' });
     }
   }
 });
@@ -14,27 +14,27 @@ function initDevTools(panels) {
   panels.forEach(function (panel) {
     chrome.devtools.panels.create(
       panel.title,
-      "empty.png",
-      "panel.html",
+      'empty.png',
+      'panel.html',
       function (extensionPanel) {
         extensionPanel.onShown.addListener(function (panelWindow) {
-          if (panelWindow.document.querySelector("resetDevTool") === null) {
+          if (panelWindow.document.querySelector('resetDevTool') === null) {
             return;
           } else {
-            panelWindow.document.querySelector("resetDevTool").remove();
+            panelWindow.document.querySelector('resetDevTool').remove();
           }
           panelWindow.document
-            .getElementById("sandbox")
+            .getElementById('sandbox')
             .contentWindow.postMessage(
               {
-                command: "render",
+                command: 'render',
                 body: {
                   content: panel.content,
                   styles: panel.styles,
                   scripts: panel.scripts,
                 },
               },
-              "*"
+              '*'
             );
           // panelWindow.document.querySelector("html").remove();
           // panelWindow.document.write(panel.content);
@@ -62,9 +62,9 @@ function validPanelObj(panelsGiven) {
   }
   for (let i = 0; i < panelsGiven.length; i++) {
     if (
-      typeof panelsGiven[i] !== "object" ||
+      typeof panelsGiven[i] !== 'object' ||
       !panelsGiven[i].title ||
-      (!panelsGiven[i].content && panelsGiven[i].content !== "")
+      (!panelsGiven[i].content && panelsGiven[i].content !== '')
     ) {
       return false;
     }
@@ -72,12 +72,12 @@ function validPanelObj(panelsGiven) {
   return true;
 }
 
-chrome.storage.sync.get("panels", function (data) {
+chrome.storage.sync.get('panels', function (data) {
   if (data.panels == undefined || data.panels == null) {
     chrome.storage.sync.set({ panels: [] });
     return;
   } else if (!validPanelObj(data.panels)) {
-    console.error("Invalid panels passed in:", data.panels);
+    console.error('Invalid panels passed in:', data.panels);
     return;
   }
   initDevTools(data.panels);

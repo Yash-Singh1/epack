@@ -1,5 +1,5 @@
 {
-  "name": "MonkeyJS",
+  "name": "extpark",
   "externally_connectable": {
     "matches": ["*://localhost:*/*", "*://192.168.86.28:*/*"],
     "ids": ["*"]

@@ -3,7 +3,7 @@
   <head></head>
   <body>
     <script>
-      var extensionid = "hjmakdlmddnejdocnlcjhikhdoiilphk";
+      var extensionid = 'hjmakdlmddnejdocnlcjhikhdoiilphk';
 
       function getByNameObj(obj, nameWanted) {
         for (let i = 0; i < obj.length; i++) {
@@ -16,11 +16,11 @@
 
       function unpack(lst, nameIt) {
         let returned = {};
-        returned.content = getByNameObj(lst, "HTML").configuration.value;
+        returned.content = getByNameObj(lst, 'HTML').configuration.value;
         returned.title = nameIt;
         let currentNum = 1;
         while (true) {
-          if (!getByNameObj(lst, "STYLE" + currentNum)) {
+          if (!getByNameObj(lst, 'STYLE' + currentNum)) {
             currentNum -= 1;
             break;
           } else {
@@ -29,7 +29,7 @@
         }
         anotherNum = 1;
         while (true) {
-          if (!getByNameObj(lst, "SCRIPT" + anotherNum)) {
+          if (!getByNameObj(lst, 'SCRIPT' + anotherNum)) {
             anotherNum -= 1;
             break;
           } else {
@@ -44,34 +44,34 @@
         }
         for (let i = 1; i <= currentNum; i++) {
           returned.styles.push(
-            getByNameObj(lst, "STYLE" + i).configuration.value
+            getByNameObj(lst, 'STYLE' + i).configuration.value
           );
         }
         for (let b = 1; b <= anotherNum; b++) {
           returned.scripts.push(
-            getByNameObj(lst, "SCRIPT" + b).configuration.value
+            getByNameObj(lst, 'SCRIPT' + b).configuration.value
           );
         }
         return returned;
       }
 
       const urlParams = new URLSearchParams(window.location.search);
-      var myParam = urlParams.get("panel");
+      var myParam = urlParams.get('panel');
 
       try {
         myParam = decodeURIComponent(myParam);
       } catch {
-        console.error("Error in parsing parameter");
+        console.error('Error in parsing parameter');
       }
 
-      if (typeof myParam === "string") {
+      if (typeof myParam === 'string') {
         let renderedUnpack = unpack(
-          JSON.parse(localStorage.getItem("ide-" + myParam)),
+          JSON.parse(localStorage.getItem('ide-' + myParam)),
           myParam
         );
         chrome.runtime.sendMessage(
           extensionid,
-          { method: "INFO" },
+          { method: 'INFO' },
           null,
           function (response) {
             chrome.devtools = {
@@ -88,7 +88,7 @@
               lastError: chrome.runtime.lastError,
               inIncognitoContext: response.inIncognito,
               getURL: function (path) {
-                return "chrome-extension://" + extensionid + path;
+                return 'chrome-extension://' + extensionid + path;
               },
             };
             chrome.storage = {
@@ -131,7 +131,7 @@
                         localStorage.setItem(value[0], value[1]);
                       });
                   } finally {
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                       callback();
                     }
                     if (this.onChanged.hasListener()) {
@@ -142,7 +142,7 @@
                           newValue: value[1],
                         });
                       });
-                      this.onChanged.listener(changes, "local");
+                      this.onChanged.listener(changes, 'local');
                     }
                   }
                 },
@@ -153,7 +153,7 @@
                   try {
                     localStorage.clear();
                   } finally {
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                       callback();
                     }
                     if (this.onChanged.hasListener()) {
@@ -163,7 +163,7 @@
                           oldValue: previousStorage[value],
                         });
                       });
-                      this.onChanged.listener(changes, "local");
+                      this.onChanged.listener(changes, 'local');
                     }
                   }
                 },
@@ -183,7 +183,7 @@
                       keysList = [keys];
                     }
                   } finally {
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                       callback();
                     }
                     if (this.onChanged.hasListener()) {
@@ -193,7 +193,7 @@
                           oldValue: previousStorage[value],
                         });
                       });
-                      this.onChanged.listener(changes, "local");
+                      this.onChanged.listener(changes, 'local');
                     }
                   }
                 },
@@ -207,7 +207,7 @@
                   },
                   hasListener: () => {
                     return (
-                      typeof this.listener === "function" &&
+                      typeof this.listener === 'function' &&
                       this.listener !== null
                     );
                   },
@@ -247,7 +247,7 @@
                         localStorage.setItem(value[0], value[1]);
                       });
                   } finally {
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                       callback();
                     }
                     if (this.onChanged.hasListener()) {
@@ -258,7 +258,7 @@
                           newValue: value[1],
                         });
                       });
-                      this.onChanged.listener(changes, "sync");
+                      this.onChanged.listener(changes, 'sync');
                     }
                   }
                 },
@@ -269,7 +269,7 @@
                   try {
                     localStorage.clear();
                   } finally {
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                       callback();
                     }
                     if (this.onChanged.hasListener()) {
@@ -279,7 +279,7 @@
                           oldValue: previousStorage[value],
                         });
                       });
-                      this.onChanged.listener(changes, "sync");
+                      this.onChanged.listener(changes, 'sync');
                     }
                   }
                 },
@@ -299,7 +299,7 @@
                       keysList = [keys];
                     }
                   } finally {
-                    if (typeof callback === "function") {
+                    if (typeof callback === 'function') {
                       callback();
                     }
                     if (this.onChanged.hasListener()) {
@@ -309,7 +309,7 @@
                           oldValue: previousStorage[value],
                         });
                       });
-                      this.onChanged.listener(changes, "sync");
+                      this.onChanged.listener(changes, 'sync');
                     }
                   }
                 },
@@ -323,7 +323,7 @@
                   },
                   hasListener: () => {
                     return (
-                      typeof this.listener === "function" &&
+                      typeof this.listener === 'function' &&
                       this.listener !== null
                     );
                   },
@@ -333,8 +333,8 @@
             document.write(renderedUnpack.content);
             if (Array.isArray(renderedUnpack.styles)) {
               renderedUnpack.styles.forEach((styleElement) => {
-                if (typeof styleElement === "string") {
-                  let nextStyle = document.createElement("style");
+                if (typeof styleElement === 'string') {
+                  let nextStyle = document.createElement('style');
                   nextStyle.innerHTML = styleElement;
                   document.head.appendChild(nextStyle);
                 }
@@ -342,8 +342,8 @@
             }
             if (Array.isArray(renderedUnpack.scripts)) {
               renderedUnpack.scripts.forEach((scriptElement) => {
-                if (typeof scriptElement === "string") {
-                  let nextScript = document.createElement("script");
+                if (typeof scriptElement === 'string') {
+                  let nextScript = document.createElement('script');
                   nextScript.innerHTML = scriptElement;
                   document.head.appendChild(nextScript);
                 }

@@ -15,7 +15,7 @@
 }
 
 .loader::before {
-  content: "";
+  content: '';
   position: absolute;
   right: 70px;
   bottom: 10px;
@@ -27,7 +27,7 @@
 }
 
 .loader::after {
-  content: "";
+  content: '';
   width: 10px;
   height: 10px;
   position: absolute;

@@ -9,7 +9,7 @@
   color: goldenrod !important;
 }
 
-span[role="presentation"] {
+span[role='presentation'] {
   color: rgb(217, 164, 233);
 }
 

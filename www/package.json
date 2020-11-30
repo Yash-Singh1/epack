@@ -1,7 +1,7 @@
 {
   "name": "wwwmonkey",
   "version": "1.0.0",
-  "description": "The IDE site for monkeyJS",
+  "description": "The IDE site for extpark",
   "main": "index.js",
   "scripts": {
     "test": "npm install && node preview.js"

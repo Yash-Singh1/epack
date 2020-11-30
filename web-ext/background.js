@@ -1,11 +1,11 @@
 var once = false;
 
 function getAndDoWelcome() {
-  chrome.storage.sync.get(["welcome"], function (data) {
+  chrome.storage.sync.get(['welcome'], function (data) {
     if (data.welcome == undefined) {
-      chrome.storage.sync.set({ welcome: "Welcome to MonkeyJS!" });
-      setWelcomeLog("Welcome to MonkeyJS!");
-    } else if (data.welcome == "" || data.welcome == null) {
+      chrome.storage.sync.set({ welcome: 'Welcome to extpark!' });
+      setWelcomeLog('Welcome to extpark!');
+    } else if (data.welcome == '' || data.welcome == null) {
       console.clear();
       if (welcomeElement() != null) {
         welcomeElement().remove();
@@ -23,8 +23,8 @@ function setWelcomeLog(string) {
     once = true;
   }
   if (welcomeElement() == null) {
-    let newtag = document.createElement("p");
-    newtag.id = "welcome";
+    let newtag = document.createElement('p');
+    newtag.id = 'welcome';
     document.body.appendChild(newtag);
   }
   welcomeElement().innerHTML = string;
@@ -53,12 +53,12 @@ chrome.runtime.onMessageExternal.addListener(async function (
   sender,
   sendResponse
 ) {
-  if (request.method == "GET") {
+  if (request.method == 'GET') {
     sendResponse(await getFromStorage());
-  } else if (request.method == "SET") {
+  } else if (request.method == 'SET') {
     chrome.storage.sync.set(request.body, function () {});
     sendResponse({ success: true });
-  } else if (request.method == "INFO") {
+  } else if (request.method == 'INFO') {
     sendResponse({
       inIncognito: chrome.extension.inIncognitoContext,
       theme: (await getFromStorage()).devtoolsTheme,

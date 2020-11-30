@@ -2,17 +2,17 @@
 <html>
   <head>
     <script>
-      window.addEventListener("message", function (event) {
+      window.addEventListener('message', function (event) {
         var command = event.data.command;
         var body = event.data.body;
         switch (command) {
-          case "render":
-            document.querySelector("html").remove();
+          case 'render':
+            document.querySelector('html').remove();
             document.write(body.content);
             if (Array.isArray(body.styles)) {
               body.styles.forEach((styleElement) => {
-                if (typeof styleElement === "string") {
-                  let nextStyle = document.createElement("style");
+                if (typeof styleElement === 'string') {
+                  let nextStyle = document.createElement('style');
                   nextStyle.innerHTML = styleElement;
                   document.head.appendChild(nextStyle);
                 }
@@ -20,8 +20,8 @@
             }
             if (Array.isArray(body.scripts)) {
               body.scripts.forEach((scriptElement) => {
-                if (typeof scriptElement === "string") {
-                  let nextScript = document.createElement("script");
+                if (typeof scriptElement === 'string') {
+                  let nextScript = document.createElement('script');
                   nextScript.innerHTML = scriptElement;
                   document.head.appendChild(nextScript);
                 }

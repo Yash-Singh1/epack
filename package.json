@@ -1,0 +1,21 @@
+{
+  "name": "extpark",
+  "version": "1.0.0",
+  "description": "Simple to use GUI interface to create extensions",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm test --prefix www/",
+    "code-style": "npm install && prettier --write ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/extpark/extpark.git"
+  },
+  "keywords": [],
+  "author": "Yash Singh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/extpark/extpark/issues"
+  },
+  "homepage": "https://github.com/extpark/extpark#readme"
+}

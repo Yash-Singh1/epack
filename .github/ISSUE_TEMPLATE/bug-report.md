@@ -1,9 +1,9 @@
 ---
 name: Bug Report
 about: A bug or issue that is happening
-title: "[BUG]"
+title: '[BUG]'
 labels: bug
-assignees: ""
+assignees: ''
 ---
 
 ## Summary
