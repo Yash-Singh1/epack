@@ -1,3 +1,5 @@
+/* Custom CodeMirror style adjustments */
+
 .CodeMirror-linenumber {
   color: orangered !important;
 }
