@@ -200,7 +200,7 @@ function constructSelect() {
 }
 
 function resizeTabs() {
-  document.querySelectorAll('.tabcontent > .CodeMirror').forEach((element) => {
+  document.querySelectorAll(".tabcontent > .CodeMirror").forEach((element) => {
     element.CodeMirror.setSize(...sizes);
   });
 }
@@ -227,7 +227,7 @@ var deleteChecks = byId("deleteChecks");
 var duplicateDialog = byId("duplicateDialog");
 var duplicateBtn = byId("confirmBtn5");
 var duplicateStatus = byId("duplicateStatus");
-const sizes = ["default", "100%"]
+const sizes = ["default", "100%"];
 var nameOfPanelCurrentValue = "";
 nameOfPanel.value = "";
 var duplicateNameCurrentValue = "";
@@ -645,7 +645,16 @@ DarkReader.enable(
       ".previewPNG",
       'img[src="img/blank.png"]',
     ],
+    css: `body, html {
+  background-color: var(--darkreader-neutral-background) !important;
+}`,
   }
 );
+
+// #endregion
+
+// #region Loader
+
+document.querySelector("#loaderContainer").style.display = "none";
 
 // #endregion

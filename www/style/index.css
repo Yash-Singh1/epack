@@ -342,4 +342,9 @@ img {
   user-select: none;
 }
 
+/* Does some prevention of the white flash before loading webpage */
+body {
+  background-color: black;
+}
+
 /* #endregion */
