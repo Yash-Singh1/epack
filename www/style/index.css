@@ -356,8 +356,8 @@ body {
   overflow: hidden;
 }
 
-/* Prevent highlighting of images */
-img {
+/* Prevent highlighting of images and cookies close button */
+img, button#close {
   -khtml-user-select: none;
   -o-user-select: none;
   -moz-user-select: none;
