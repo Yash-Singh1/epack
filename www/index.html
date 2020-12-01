@@ -26,11 +26,6 @@
     <div id="loaderContainer">
       <span class="loader">Load&nbsp;ng</span>
     </div>
-    <h3 id="current-panel-wrapper">
-      Current Panel:
-      <strong id="current-panel"></strong>
-    </h3>
-    <img src="img/save.png" class="savePNG" id="save" alt="save" title="Save" />
     <img
       src="img/create.png"
       id="create"
@@ -38,6 +33,18 @@
       alt="create"
       title="Create"
     />
+    <h3 id="current-panel-wrapper">
+      Current Panel:
+      <strong id="current-panel"></strong>
+    </h3>
+    <img
+      src="img/delete.png"
+      id="delete"
+      class="deletePNG"
+      alt="delete"
+      title="Delete"
+    />
+    <img src="img/save.png" id="save" class="savePNG" alt="save" title="Save" />
     <a id="preview-panel" target="_blank">
       <img
         src="img/preview.png"
@@ -48,36 +55,41 @@
     </a>
     <img
       src="img/switch.png"
+      id="switch"
       class="switchPNG"
       alt="switch"
       title="Switch"
-      id="switch"
-    />
-    <img
-      src="img/delete.png"
-      class="deletePNG"
-      alt="delete"
-      title="Delete"
-      id="delete"
     />
     <img
       src="img/deploy.png"
+      id="deploy"
       class="deployPNG"
       alt="deploy"
       title="Deploy"
-      id="deploy"
     />
     <img
       src="img/duplicate.png"
+      id="duplicate"
       class="duplicatePNG"
       alt="duplicate"
       title="Duplicate"
-      id="duplicate"
+    />
+    <img
+      src="img/settings.png"
+      id="settings"
+      class="settingsPNG"
+      alt="settings"
+      title="Settings"
     />
     <script src="https://extpark.github.io/monkeyIDE/index.js"></script>
     <dialog id="favDialog">
       <form method="dialog">
-        <input id="name" autocapitalize="off" autocomplete="off" />
+        <input
+          id="name"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
+        />
         <p id="status">That input is invalid</p>
         <div id="styles-setter">
           <p id="styles-label">Styles:</p>
@@ -123,7 +135,12 @@
     </dialog>
     <dialog id="duplicateDialog">
       <form method="dialog">
-        <input id="duplicateName" autocapitalize="off" autocomplete="off" />
+        <input
+          id="duplicateName"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
+        />
         <p id="duplicateStatus">That input is invalid</p>
         <menu class="menus">
           <button id="confirmBtn5" class="actions">Create</button>
@@ -169,6 +186,12 @@
         <button id="close">&times;</button>
       </p>
     </div>
+    <h1 id="msgStart">
+      <strong>
+        Welcome to <kbd>extpark</kbd>!<br>
+        To get started click on the create icon on the bottom right
+      </strong>
+    </h1>
     <script src="index.js"></script>
   </body>
 </html>

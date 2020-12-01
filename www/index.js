@@ -48,16 +48,25 @@ function galleryOfButtons(array) {
 }
 
 function runTemplate(target) {
-  if (JSON.parse(handleNull('total')).includes(target.name) !== true) {
-    localStorage.setItem('ide-' + target.name, '[]');
-    let total = JSON.parse(handleNull('total'));
+  if (!JSON.parse(handleNull('total', true)).includes(target.name)) {
+    localStorage.setItem(
+      'ide-' + target.name,
+      JSON.stringify({
+        settings: {},
+        tabs: [],
+      })
+    );
+    let total = JSON.parse(handleNull('total', true));
     total.push(target.name);
     localStorage.setItem('total', JSON.stringify(total));
     ide.switchPanel(ide.currentPanel, 'ide-' + target.name);
     ide.large(target.tabs);
-    localStorage.setItem('ide-' + favDialog.returnValue, stringifiedPack());
+    localStorage.setItem('ide-' + target.name, stringifiedPack(target.name));
     byId('current-panel-wrapper').style.display = 'block';
     ide.openTab(0);
+    resizeTabs();
+    byId('tabs').style.display = 'block';
+    document.querySelector('.tabbuttons').style.display = 'block';
   }
 }
 
@@ -75,6 +84,7 @@ setInterval(function () {
 }, 1000);
 
 function unpack(lst, nameIt) {
+  lst = myParse(lst);
   let returned = {};
   returned.content = getByNameObj(lst, 'HTML').configuration.value;
   returned.title = nameIt;
@@ -131,17 +141,27 @@ setInterval(function () {
   }
 }, 100);
 
-function stringifiedPack() {
-  return JSON.stringify(ide.pack(ide.files));
+function stringifiedPack(query) {
+  return JSON.stringify({
+    tabs: JSON.stringify(ide.pack(ide.files)),
+    settings: JSON.parse(handleNull('ide-' + query)).settings,
+  });
 }
 
-function handleNull(item) {
+function handleNull(item, list) {
   if (
     localStorage.getItem(item) === null ||
     localStorage.getItem(item) === ''
   ) {
-    localStorage.setItem(item, []);
-    return '[]';
+    let toReturn =
+      list === true
+        ? '[]'
+        : JSON.stringify({
+            settings: {},
+            tabs: [],
+          });
+    localStorage.setItem(item, toReturn);
+    return toReturn;
   } else {
     return localStorage.getItem(item);
   }
@@ -153,8 +173,8 @@ function constructBoxes(allChecked) {
   if (allChecked === true) {
     checkedAtrribute = ' checked';
   }
-  for (let i = 0; i < JSON.parse(handleNull('total')).length; i++) {
-    let element = JSON.parse(handleNull('total'))[i];
+  for (let i = 0; i < JSON.parse(handleNull('total', true)).length; i++) {
+    let element = JSON.parse(handleNull('total', true))[i];
     returnString +=
       '<input id="checkbox-' +
       element +
@@ -181,19 +201,26 @@ function showIt(modal) {
 }
 
 ide.switchPanel = function (current, newer) {
-  localStorage.setItem(current, stringifiedPack());
+  current !== null
+    ? localStorage.setItem(current, stringifiedPack(current.substring(4)))
+    : undefined;
   localStorage.setItem('current', newer);
   ide.removeAll();
-  ide.large(JSON.parse(handleNull(newer)));
+  ide.large(myParse(JSON.parse(handleNull(newer)).tabs));
   ide.currentPanel = newer;
   byId('current-panel').innerHTML = newer.substring(4);
   resizeTabs();
+  refreshAll();
 };
+
+function myParse(content) {
+  return typeof content === 'string' ? JSON.parse(content) : content;
+}
 
 function constructSelect() {
   let returnString = '';
-  for (let i = 0; i < JSON.parse(handleNull('total')).length; i++) {
-    let element = JSON.parse(handleNull('total'))[i];
+  for (let i = 0; i < JSON.parse(handleNull('total', true)).length; i++) {
+    let element = JSON.parse(handleNull('total', true))[i];
     returnString += '<option value="' + element + '">' + element + '</option>';
   }
   return returnString;
@@ -204,6 +231,22 @@ function resizeTabs() {
     element.CodeMirror.setSize(...sizes);
   });
 }
+
+function refreshAll() {
+  document.querySelectorAll('.tabcontent > .CodeMirror').forEach((element) => {
+    element.CodeMirror.refresh();
+  });
+}
+
+ide.createTab = (function () {
+  var cached_function = ide.createTab;
+
+  return function () {
+    var result = cached_function.apply(this, arguments);
+    refreshAll();
+    return result;
+  };
+})();
 
 // #endregion
 
@@ -255,13 +298,15 @@ if (ide.currentPanel !== null) {
   byId('current-panel').innerHTML = ide.currentPanel.substring(4);
 } else {
   byId('current-panel-wrapper').style.display = 'none';
+  byId('tabs').style.display = 'none';
+  document.querySelector('.tabbuttons').style.display = 'none';
 }
 
 if (
   typeof JSON.parse(localStorage.getItem(ide.currentPanel)) === 'object' &&
   JSON.parse(localStorage.getItem(ide.currentPanel)) !== null
 ) {
-  ide.large(JSON.parse(localStorage.getItem(ide.currentPanel)));
+  ide.large(myParse(JSON.parse(localStorage.getItem(ide.currentPanel)).tabs));
   resizeTabs();
 }
 
@@ -279,7 +324,8 @@ byId('createBlank').onclick = function () {
 
 nameOfPanel.onmychange = function () {
   if (
-    JSON.parse(handleNull('total')).includes(nameOfPanel.value) !== true &&
+    JSON.parse(handleNull('total', true)).includes(nameOfPanel.value) !==
+      true &&
     nameOfPanel.value !== ''
   ) {
     let nextConfirm = JSON.parse(confirmBtn.value);
@@ -307,7 +353,7 @@ byId('scripts-number').onmychange = function () {
 favDialog.addEventListener('close', function () {
   if (
     favDialog.returnValue !== '{}' &&
-    JSON.parse(handleNull('total')).includes(
+    JSON.parse(handleNull('total', true)).includes(
       JSON.parse(favDialog.returnValue).name
     ) !== true &&
     JSON.parse(favDialog.returnValue).name !== '' &&
@@ -330,8 +376,14 @@ favDialog.addEventListener('close', function () {
       scriptsNum = 0;
     }
     favDialog.returnValue = JSON.parse(favDialog.returnValue).name;
-    localStorage.setItem('ide-' + favDialog.returnValue, '[]');
-    let total = JSON.parse(handleNull('total'));
+    localStorage.setItem(
+      'ide-' + favDialog.returnValue,
+      JSON.stringify({
+        settings: {},
+        tabs: [],
+      })
+    );
+    let total = JSON.parse(handleNull('total', true));
     total.push(favDialog.returnValue);
     localStorage.setItem('total', JSON.stringify(total));
     ide.switchPanel(ide.currentPanel, 'ide-' + favDialog.returnValue);
@@ -342,7 +394,8 @@ favDialog.addEventListener('close', function () {
       value: `<html>
   <head></head>
   <body></body>
-</html>`,
+</html>
+`,
     });
     for (let i = 1; i <= styleNum; i++) {
       ide.createTab('STYLE' + i, {
@@ -360,9 +413,15 @@ favDialog.addEventListener('close', function () {
         value: '',
       });
     }
-    localStorage.setItem('ide-' + favDialog.returnValue, stringifiedPack());
+    localStorage.setItem(
+      'ide-' + favDialog.returnValue,
+      stringifiedPack(favDialog.returnValue)
+    );
     byId('current-panel-wrapper').style.display = 'block';
     ide.openTab(0);
+    resizeTabs();
+    byId('tabs').style.display = 'block';
+    document.querySelector('.tabbuttons').style.display = 'block';
   }
 });
 
@@ -377,7 +436,7 @@ byId('panelData').onchange = function () {
 byId('switch').onclick = function () {
   if (ide.currentPanel !== null) {
     showIt(otherDialog);
-    otherBtn.value = JSON.parse(handleNull('total'))[0];
+    otherBtn.value = JSON.parse(handleNull('total', true))[0];
     byId('panelData').innerHTML = constructSelect();
   }
 };
@@ -387,6 +446,14 @@ otherDialog.addEventListener('close', function () {
     ide.switchPanel(ide.currentPanel, 'ide-' + otherDialog.returnValue);
   }
 });
+
+setInterval(() => {
+  if (ide.currentPanel === null) {
+    byId('switch').style.display = 'none';
+  } else {
+    byId('switch').style.display = 'block';
+  }
+}, 100);
 
 // #endregion
 
@@ -419,24 +486,26 @@ setInterval(function () {
   } else {
     byId('save').style.display = 'none';
   }
-}, 10);
+}, 100);
 
 // #endregion
 
 // #region Initialize Deploy Action
 
 byId('deploy').onclick = function () {
-  if (ide.currentPanel !== null && handleNull('total') !== '[]') {
+  if (ide.currentPanel !== null && handleNull('total', true) !== '[]') {
     showIt(deployDialog);
     let preCheckboxes = {};
-    for (let i = 0; i < JSON.parse(handleNull('total')).length; i++) {
-      let nameCurrent = JSON.parse(handleNull('total'))[i];
+    for (let i = 0; i < JSON.parse(handleNull('total', true)).length; i++) {
+      let nameCurrent = JSON.parse(handleNull('total', true))[i];
       preCheckboxes[nameCurrent] = true;
     }
     deployBtn.value = JSON.stringify(preCheckboxes);
     deployChecks.innerHTML = constructBoxes(true);
-    for (let i = 0; i < JSON.parse(handleNull('total')).length; i++) {
-      let element = byId('checkbox-' + JSON.parse(handleNull('total'))[i]);
+    for (let i = 0; i < JSON.parse(handleNull('total', true)).length; i++) {
+      let element = byId(
+        'checkbox-' + JSON.parse(handleNull('total', true))[i]
+      );
       element.onchange = function (event) {
         let realName = event.target.name;
         let checkedOrNot = event.target.checked;
@@ -457,7 +526,7 @@ deployDialog.addEventListener('close', function () {
       if (element[1] === true) {
         sendJSON.push(
           unpack(
-            JSON.parse(localStorage.getItem('ide-' + element[0])),
+            JSON.parse(localStorage.getItem('ide-' + element[0])).tabs,
             element[0]
           )
         );
@@ -471,22 +540,32 @@ deployDialog.addEventListener('close', function () {
   }
 });
 
+setInterval(() => {
+  if (ide.currentPanel === null) {
+    byId('deploy').style.display = 'none';
+  } else {
+    byId('deploy').style.display = 'block';
+  }
+}, 100);
+
 // #endregion
 
 // #region Initialize Delete Panel Action
 
 byId('delete').onclick = function () {
-  if (ide.currentPanel !== null && handleNull('total') !== '[]') {
+  if (ide.currentPanel !== null && handleNull('total', true) !== '[]') {
     showIt(deleteDialog);
     let preCheckboxes = {};
-    for (let i = 0; i < JSON.parse(handleNull('total')).length; i++) {
-      let nameCurrent = JSON.parse(handleNull('total'))[i];
+    for (let i = 0; i < JSON.parse(handleNull('total', true)).length; i++) {
+      let nameCurrent = JSON.parse(handleNull('total', true))[i];
       preCheckboxes[nameCurrent] = false;
     }
     deleteBtn.value = JSON.stringify(preCheckboxes);
     deleteChecks.innerHTML = constructBoxes(false);
-    for (let i = 0; i < JSON.parse(handleNull('total')).length; i++) {
-      let element = byId('checkbox-' + JSON.parse(handleNull('total'))[i]);
+    for (let i = 0; i < JSON.parse(handleNull('total', true)).length; i++) {
+      let element = byId(
+        'checkbox-' + JSON.parse(handleNull('total', true))[i]
+      );
       element.onchange = function (event) {
         let realName = event.target.name;
         let checkedOrNot = event.target.checked;
@@ -499,14 +578,18 @@ byId('delete').onclick = function () {
 };
 
 deleteDialog.addEventListener('close', function () {
-  if (deleteDialog.returnValue !== '' && deleteDialog.returnValue !== '{}') {
+  if (
+    deleteDialog.returnValue !== '' &&
+    deleteDialog.returnValue !== '{}' &&
+    typeof deleteDialog.returnValue === 'string'
+  ) {
     let finalJSON = JSON.parse(deleteDialog.returnValue);
     let index;
     for (let i = 0; i < Object.entries(finalJSON).length; i++) {
       let element = Object.entries(finalJSON)[i];
       if (element[1] === true) {
         localStorage.removeItem('ide-' + element[0]);
-        let totally = JSON.parse(handleNull('total'));
+        let totally = JSON.parse(handleNull('total', true));
         let futureTotally = [];
         for (index = 0; index < totally.length; index++) {
           let thisElement = totally[index];
@@ -517,16 +600,28 @@ deleteDialog.addEventListener('close', function () {
         localStorage.setItem('total', JSON.stringify(futureTotally));
       }
     }
-    if (handleNull('total') == '[]') {
+    if (handleNull('total', true) == '[]') {
       ide.removeAll();
       ide.currentPanel = null;
       localStorage.removeItem('current');
       byId('current-panel-wrapper').style.display = 'none';
-    } else if (!JSON.parse(handleNull('total')).includes(ide.currentPanel)) {
-      ide.switchPanel(null, JSON.parse(handleNull('total'))[0]);
+      byId('tabs').style.display = 'none';
+      document.querySelector('.tabbuttons').style.display = 'none';
+    } else if (
+      !JSON.parse(handleNull('total', true)).includes(ide.currentPanel)
+    ) {
+      ide.switchPanel(null, 'ide-' + JSON.parse(handleNull('total', true))[0]);
     }
   }
 });
+
+setInterval(() => {
+  if (ide.currentPanel === null) {
+    byId('delete').style.display = 'none';
+  } else {
+    byId('delete').style.display = 'block';
+  }
+}, 100);
 
 // #endregion
 
@@ -541,7 +636,7 @@ byId('duplicate').onclick = function () {
 
 duplicateName.onmychange = function () {
   if (
-    JSON.parse(handleNull('total')).includes(duplicateName.value) !== true &&
+    !JSON.parse(handleNull('total', true)).includes(duplicateName.value) &&
     duplicateName.value !== ''
   ) {
     duplicateBtn.value = duplicateName.value;
@@ -553,19 +648,32 @@ duplicateName.onmychange = function () {
 };
 
 duplicateDialog.addEventListener('close', function () {
-  if (duplicateDialog.returnValue !== '') {
-    let setting = ide.pack(ide.files);
-    setting = JSON.stringify(setting);
+  if (
+    duplicateDialog.returnValue !== '' &&
+    typeof duplicateDialog.returnValue === 'string'
+  ) {
+    let setting = stringifiedPack(ide.currentPanel);
     localStorage.setItem('ide-' + duplicateDialog.returnValue, setting);
-    let total = JSON.parse(handleNull('total'));
+    let total = JSON.parse(handleNull('total', true));
     total.push(duplicateDialog.returnValue);
     localStorage.setItem('total', JSON.stringify(total));
     ide.switchPanel(ide.currentPanel, 'ide-' + duplicateDialog.returnValue);
+    byId('tabs').style.display = 'block';
+    document.querySelector('.tabbuttons').style.display = 'block';
   }
   duplicateName.value = '';
   duplicateDialog.returnValue = '';
   duplicateBtn.value = '';
+  resizeTabs();
 });
+
+setInterval(() => {
+  if (ide.currentPanel === null) {
+    byId('duplicate').style.display = 'none';
+  } else {
+    byId('duplicate').style.display = 'block';
+  }
+}, 100);
 
 // #endregion
 
@@ -588,7 +696,7 @@ setInterval(function () {
   } else {
     byId('preview-panel').style.display = 'none';
   }
-}, 10);
+}, 100);
 
 // #endregion
 
@@ -614,6 +722,18 @@ byId('createTemplate').onclick = async function () {
   byId('templateMenu').innerHTML = galleryOfButtons(templates);
   showIt(byId('templateChooser'));
 };
+
+// #endregion
+
+// #region Initialize Settings Option
+
+setInterval(() => {
+  if (ide.currentPanel === null) {
+    byId('settings').style.right = '26px';
+  } else {
+    byId('settings').style.right = '';
+  }
+}, 100);
 
 // #endregion
 
@@ -643,18 +763,33 @@ DarkReader.enable(
       '.switchPNG',
       '.duplicatePNG',
       '.previewPNG',
+      '.settingsPNG',
       'img[src="img/blank.png"]',
+      '#styles-label',
+      '#scripts-label',
     ],
     css: `body, html {
-  background-color: var(--darkreader-neutral-background) !important;
-}`,
+      background-color: var(--darkreader-neutral-background) !important;
+    }`,
   }
 );
 
 // #endregion
 
+// #region Start Message
+
+setInterval(() => {
+  if (ide.currentPanel === null) {
+    byId('msgStart').style.display = 'block';
+  } else {
+    byId('msgStart').style.display = 'none';
+  }
+}, 100);
+
+// #endregion
+
 // #region Loader
 
-document.querySelector('#loaderContainer').style.display = 'none';
+byId('loaderContainer').style.display = 'none';
 
 // #endregion

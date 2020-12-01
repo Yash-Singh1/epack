@@ -6,7 +6,7 @@
 
 ### Running Locally
 
-- Go to the `www/` directory and run `npm run test`.
+- Go to the `www/` directory and run `npm run test` <kbd>**OR**</kbd> Just run: `npm run start`
 - Now the site will be running on `http://localhost:1534/index.html`.
 - Open up `chrome://extensions`.
 - Enable developer mode in the top right.
