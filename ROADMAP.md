@@ -6,3 +6,4 @@ This is the roadmap for `epack`:
 - Support sub-panels
 - Support buttons for panels
 - Create an action to export the extension
+- Release on Chrome WebStore
