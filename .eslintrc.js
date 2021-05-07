@@ -263,6 +263,7 @@ module.exports = {
     'unicorn/no-null': 'off',
     'unicorn/prefer-add-event-listener': 'off',
     'unicorn/prefer-array-some': 'off',
+    'unicorn/prefer-module': 'off',
     'unicorn/prefer-number-properties': 'off',
     'unicorn/prefer-query-selector': 'off',
     'unicorn/prefer-reflect-apply': 'off',
