@@ -14,8 +14,7 @@
 
 <br />
 
-`epack` (**E**xtension **PACK**) is the simplest option for programming extensions.
-Currently, it is focused on making Chrome devtools extensions but has plans to expand later.
+`epack` (**E**xtension **PACK**) is the simplest option for programming Chrome DevTools Extensions.
 
 ## Why?
 
