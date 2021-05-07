@@ -1,29 +1,33 @@
-# `extpark`
+<h1 align="center"><code>epack</code></h1>
 
-`extpark` (**EXT**ension **PARK**) is a simple to use GUI interface that provides with an easier way to make extensions. Currently it is focused on making chrome devtools extensions but has plans to expand later.
+<p align="center">
+  <a href="https://github.com/prettier/prettier">
+    <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" />
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?style=flat-square" />
+  </a>
+  <a href="javascript:;">
+    <img alt="Under Maintenance" src="https://img.shields.io/badge/under-maintenance-yellow.svg?style=flat-square" />
+  </a>
+</p>
 
-## Documentation
+<br />
 
-### Running Locally
+`epack` (**E**xtension **PACK**) is the simplest option for programming extensions.
+Currently, it is focused on making Chrome devtools extensions but has plans to expand later.
 
-- Go to the `www/` directory and run `npm run test` <kbd>**OR**</kbd> Just run: `npm run start`
-- Now the site will be running on `http://localhost:1534/index.html`.
-- Open up `chrome://extensions`.
-- Enable developer mode in the top right.
-- Now click on "Load unpacked" in the top left. Select the `web-ext/` directory on the root of this repository.
-- Copy the ID of the resulting extension.
-- Go back to the site and run `localStorage.setItem("extensionid", "EXTENSION_ID")`. Replace `EXTENSION_ID` with the ID that you copied.
+## Why?
 
-Now the setup is complete and the site and extension should be up and running!
+- All inside your browser
+- Easy to use
+- No need to open up an IDE
+- Allows multiple extension components
 
-### Directory Structure
+## Getting Started
 
-The `web-ext/` directory contains the extension while the `www/` directory contains the site.
-
-### Architecture
-
-The site provides a UI for the user to code in the IDE and create panels. When the user deploys their panels, all of the data is sent to the extension. The extension then takes this request's data and places it into the `syncStorage`. Whenever a new instance of Chrome DevTools is created, the panels are rendered inside there.
+For more thorough documentation on getting started, go to the [starting up the documentation instructions](docs/setup.md#viewing-docs)
 
 ## Contributing
 
-Contributions are greatly welcomed! Please see the `CONTRIBUTING.md` for more information on how to contribute.
+Contributions are greatly welcomed! Please see the [`CONTRIBUTING.md`](CONTRIBUTING.md) for more information on how to contribute.

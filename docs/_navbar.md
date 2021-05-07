@@ -1,0 +1,3 @@
+- [Home](/)
+- [Setting Up](setup.md)
+- [Using Site](ui.md)

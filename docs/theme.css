@@ -1,0 +1,47 @@
+/* Make sure that the header's code tags aren't small */
+
+.markdown-section h1 code {
+  font-size: 2rem !important;
+}
+
+.markdown-section h2 code {
+  font-size: 1.75rem !important;
+}
+
+.markdown-section h3 code {
+  font-size: 1.5rem !important;
+}
+
+.markdown-section h4 code {
+  font-size: 1.25rem !important;
+}
+
+.markdown-section h5 code,
+.markdown-section h6 code {
+  font-size: 1rem !important;
+}
+
+/* Style license */
+
+strong#license {
+  font-size: larger;
+}
+
+/* Github Wave */
+
+.github-corner:hover .octo-arm {
+  -webkit-animation: octocat-wave 0.56s infinite;
+  animation: octocat-wave 0.56s infinite;
+}
+
+/* Navigation Bar Cursor */
+
+nav.app-nav > ul > li > a {
+  cursor: pointer;
+}
+
+/* Copy to Clipboard - Border Radius */
+
+.docsify-copy-code-button {
+  border-radius: 10px !important;
+}

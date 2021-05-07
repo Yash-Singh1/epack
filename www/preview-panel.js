@@ -1,340 +1,256 @@
-var extensionid = 'hjmakdlmddnejdocnlcjhikhdoiilphk';
-
-if (localStorage.getItem('extensionid') !== null) {
-  extensionid = localStorage.getItem('extensionid');
-}
-
-function getByNameObj(obj, nameWanted) {
-  for (let i = 0; i < obj.length; i++) {
-    let element = obj[i];
-    if (element.name == nameWanted) {
-      return obj[i];
+// Declare StorageChange class: Defines the changes in the chrome.storage API’s StorageArea
+class StorageChange {
+  constructor(object) {
+    for (const key of Object.keys(object)) {
+      this[key] = object[key];
     }
   }
 }
 
-function myParse(content) {
-  return typeof content === 'string' ? JSON.parse(content) : content;
-}
-
-function unpack(lst, nameIt) {
-  lst = myParse(lst);
-  let returned = {};
-  returned.content = getByNameObj(lst, 'HTML').configuration.value;
-  returned.title = nameIt;
-  let currentNum = 1;
-  while (true) {
-    if (!getByNameObj(lst, 'STYLE' + currentNum)) {
-      currentNum -= 1;
-      break;
-    } else {
-      currentNum += 1;
+// Declare StorageArea class: Includes chrome.storage.sync and chrome.storage.local
+// Note: This repo adds another key to the StorageArea class: type, defining the type of the StorageArea
+class StorageArea {
+  constructor(object) {
+    for (const key of Object.keys(object)) {
+      this[key] = object[key];
     }
   }
-  anotherNum = 1;
-  while (true) {
-    if (!getByNameObj(lst, 'SCRIPT' + anotherNum)) {
-      anotherNum -= 1;
-      break;
-    } else {
-      anotherNum += 1;
+}
+
+if (typeof decodeURIComponent(new URLSearchParams(window.location.search).get('panel')) === 'string') {
+  /**
+   * Parses the content if it is a string and isn’t empty
+   * @param {*} content The content to parse
+   * @returns {*} The parsed content
+   */
+  function parseJSON(content) {
+    return typeof content === 'string' && content !== '' ? JSON.parse(content) : content;
+  }
+
+  // Read query parameters and parse the content
+  const panelName = new URLSearchParams(window.location.search).get('panel');
+  const renderedUnpack = unpack(parseJSON(localStorage.getItem('ide-' + panelName)), panelName);
+
+  if (localStorage.getItem('preview-' + panelName) === null) {
+    localStorage.setItem('preview-' + panelName, '{}');
+  }
+
+  chrome.runtime.sendMessage(localStorage.getItem('extensionid'), {method: 'INFO'}, null, (response) => {
+    /**
+     * Empty function used for default callback
+     */
+    function emptyFunction() {}
+
+    /**
+     * Writes to the preview storage for the panel
+     * @param {string} key The key that should be set
+     * @param {string} value The value that should be set
+     */
+    function writeToPreviewStorage(key, value) {
+      let nowStorage = parseJSON(localStorage.getItem('preview-' + panelName));
+      if (nowStorage === null || typeof nowStorage !== 'object') {
+        nowStorage = {};
+      }
+
+      nowStorage[key] = value;
+      localStorage.setItem('preview-' + panelName, JSON.stringify(nowStorage));
     }
-  }
-  if (currentNum !== 0) {
-    returned.styles = [];
-  }
-  if (anotherNum !== 0) {
-    returned.scripts = [];
-  }
-  for (let i = 1; i <= currentNum; i++) {
-    returned.styles.push(getByNameObj(lst, 'STYLE' + i).configuration.value);
-  }
-  for (let b = 1; b <= anotherNum; b++) {
-    returned.scripts.push(getByNameObj(lst, 'SCRIPT' + b).configuration.value);
-  }
-  return returned;
-}
 
-const urlParams = new URLSearchParams(window.location.search);
-var myParam = urlParams.get('panel');
+    /**
+     * Returns the preview storages content of the current panel
+     * @returns {Object} The final value of the preview storage
+     */
+    function readPreviewStorage() {
+      const nowStorage = parseJSON(localStorage.getItem('preview-' + panelName));
+      if (nowStorage === null || typeof nowStorage !== 'object') {
+        localStorage.setItem('preview-' + panelName);
+        return {};
+      }
 
-try {
-  myParam = decodeURIComponent(myParam);
-} catch {
-  console.error('Error in parsing parameter');
-}
+      return nowStorage;
+    }
 
-if (typeof myParam === 'string') {
-  let renderedUnpack = unpack(
-    JSON.parse(localStorage.getItem('ide-' + myParam)).tabs,
-    myParam
-  );
-  chrome.runtime.sendMessage(
-    extensionid,
-    { method: 'INFO' },
-    null,
-    function (response) {
-      chrome.devtools = {
-        panels: {
-          themeName: response.theme,
-        },
-        inspectedWindow: {
-          eval: eval,
-          reload: window.location.reload,
-        },
-        network: {},
-      };
-      chrome.extension = {
-        lastError: chrome.runtime.lastError,
-        inIncognitoContext: response.inIncognito,
-        getURL: function (path) {
-          return 'chrome-extension://' + extensionid + path;
-        },
-      };
-      chrome.storage = {
-        StorageChange: function (obj) {
-          Object.entries(obj).forEach((value) => {
-            this[value[0]] = value[1];
-          });
-        },
-        local: {
-          get: (arr, callback) => {
-            let allkeys = Object.keys(localStorage);
-            let lookFor = [];
-            try {
-              let toCallback = {};
-              if (arr === null) {
-                lookFor = allkeys;
-              } else if (Array.isArray(arr)) {
-                lookFor = arr;
-              }
-              Object.entries(localStorage).forEach((value) => {
-                if (lookFor.includes(value[0])) {
-                  toCallback[value[0]] = JSON.parse(value[1]);
-                }
-              });
-            } finally {
-              callback(toCallback);
-            }
-          },
-          set: (obj, callback) => {
-            let previousStorage = JSON.parse(JSON.stringify(localStorage));
-            try {
-              Object.entries(obj)
-                .map((value) => {
-                  let newValue = JSON.stringify(value[1]);
-                  return [value[0], newValue];
-                })
-                .forEach((value) => {
-                  localStorage.setItem(value[0], value[1]);
-                });
-            } finally {
-              if (typeof callback === 'function') {
-                callback();
-              }
-              if (this.onChanged.hasListener()) {
-                changes = {};
-                Object.entries(obj).forEach((value) => {
-                  changes[value[0]] = new chrome.storage.StorageChange({
-                    oldValue: previousStorage[value[0]],
-                    newValue: value[1],
-                  });
-                });
-                this.onChanged.listener(changes, 'local');
-              }
-            }
-          },
-          clear: (callback) => {
-            let previousStorage = JSON.parse(JSON.stringify(localStorage));
-            try {
-              localStorage.clear();
-            } finally {
-              if (typeof callback === 'function') {
-                callback();
-              }
-              if (this.onChanged.hasListener()) {
-                changes = {};
-                Object.keys(previousStorage).forEach((value) => {
-                  changes[value] = new chrome.storage.StorageChange({
-                    oldValue: previousStorage[value],
-                  });
-                });
-                this.onChanged.listener(changes, 'local');
-              }
-            }
-          },
-          remove: (keys, callback) => {
-            keysList = [];
-            let previousStorage = JSON.parse(JSON.stringify(localStorage));
-            try {
-              if (Array.isArray(keys)) {
-                keys.forEach((value) => {
-                  localStorage.removeItem(value);
-                });
-                keysList = keys;
-              } else {
-                localStorage.removeItem(keys);
-                keysList = [keys];
-              }
-            } finally {
-              if (typeof callback === 'function') {
-                callback();
-              }
-              if (this.onChanged.hasListener()) {
-                changes = {};
-                keysList.forEach((value) => {
-                  changes[value] = new chrome.storage.StorageChange({
-                    oldValue: previousStorage[value],
-                  });
-                });
-                this.onChanged.listener(changes, 'local');
-              }
-            }
-          },
-          onChanged: {
-            listener: null,
-            addListener: (callback) => {
-              this.listener = callback;
-            },
-            removeListener: () => {
-              this.listener = null;
-            },
-            hasListener: () => {
-              return (
-                typeof this.listener === 'function' && this.listener !== null
-              );
-            },
-          },
-        },
-        sync: {
-          get: (arr, callback) => {
-            let allkeys = Object.keys(localStorage);
-            let lookFor = [];
-            try {
-              let toCallback = {};
-              if (arr === null) {
-                lookFor = allkeys;
-              } else if (Array.isArray(arr)) {
-                lookFor = arr;
-              }
-              Object.entries(localStorage).forEach((value) => {
-                if (lookFor.includes(value[0])) {
-                  toCallback[value[0]] = JSON.parse(value[1]);
-                }
-              });
-            } finally {
-              callback(toCallback);
-            }
-          },
-          set: (obj, callback) => {
-            let previousStorage = JSON.parse(JSON.stringify(localStorage));
-            try {
-              Object.entries(obj)
-                .map((value) => {
-                  let newValue = JSON.stringify(value[1]);
-                  return [value[0], newValue];
-                })
-                .forEach((value) => {
-                  localStorage.setItem(value[0], value[1]);
-                });
-            } finally {
-              if (typeof callback === 'function') {
-                callback();
-              }
-              if (this.onChanged.hasListener()) {
-                changes = {};
-                Object.entries(obj).forEach((value) => {
-                  changes[value[0]] = new chrome.storage.StorageChange({
-                    oldValue: previousStorage[value[0]],
-                    newValue: value[1],
-                  });
-                });
-                this.onChanged.listener(changes, 'sync');
-              }
-            }
-          },
-          clear: (callback) => {
-            let previousStorage = JSON.parse(JSON.stringify(localStorage));
-            try {
-              localStorage.clear();
-            } finally {
-              if (typeof callback === 'function') {
-                callback();
-              }
-              if (this.onChanged.hasListener()) {
-                changes = {};
-                Object.keys(previousStorage).forEach((value) => {
-                  changes[value] = new chrome.storage.StorageChange({
-                    oldValue: previousStorage[value],
-                  });
-                });
-                this.onChanged.listener(changes, 'sync');
-              }
-            }
-          },
-          remove: (keys, callback) => {
-            keysList = [];
-            let previousStorage = JSON.parse(JSON.stringify(localStorage));
-            try {
-              if (Array.isArray(keys)) {
-                keys.forEach((value) => {
-                  localStorage.removeItem(value);
-                });
-                keysList = keys;
-              } else {
-                localStorage.removeItem(keys);
-                keysList = [keys];
-              }
-            } finally {
-              if (typeof callback === 'function') {
-                callback();
-              }
-              if (this.onChanged.hasListener()) {
-                changes = {};
-                keysList.forEach((value) => {
-                  changes[value] = new chrome.storage.StorageChange({
-                    oldValue: previousStorage[value],
-                  });
-                });
-                this.onChanged.listener(changes, 'sync');
-              }
-            }
-          },
-          onChanged: {
-            listener: null,
-            addListener: (callback) => {
-              this.listener = callback;
-            },
-            removeListener: () => {
-              this.listener = null;
-            },
-            hasListener: () => {
-              return (
-                typeof this.listener === 'function' && this.listener !== null
-              );
-            },
-          },
-        },
-      };
+    /**
+     * Removes the given key from the storage
+     * @param {string} key The key that should be removed
+     */
+    function removeFromPreviewStorage(key) {
+      let nowStorage = parseJSON(localStorage.getItem('preview-' + panelName));
+      if (nowStorage === null || typeof nowStorage !== 'object') {
+        nowStorage = {};
+      }
+
+      nowStorage[key] = undefined;
+      localStorage.setItem('preview-' + panelName, JSON.stringify(nowStorage));
+    }
+
+    /**
+     * Clears the preview storage
+     */
+    function clearPreviewStorage() {
+      localStorage.setItem('preview-' + panelName, '{}');
+    }
+
+    /**
+     * Gets the bytes of the keys given from the preview storage, brought from {@link https://stackoverflow.com/a/57899756/13514657 StackOverflow Answer}
+     * @param {String[]} arr The keys that should be used
+     * @returns {number} The bytes in the string
+     */
+    function getBytes(array) {
+      let nowStorage = parseJSON(localStorage.getItem('preview-' + panelName));
+      if (nowStorage === null || typeof nowStorage !== 'object') {
+        nowStorage = {};
+        localStorage.setItem('preview-' + panelName, '{}');
+      }
+
+      nowStorage = Object.keys(nowStorage)
+        .filter((key) => array.includes(key))
+        .reduce((object, key) => {
+          object[key] = nowStorage[key];
+          return object;
+        }, {});
+      return new TextEncoder().encode(`"preview-${panelName}":${JSON.stringify(nowStorage)},`).length;
+    }
+
+    // The max properties for the sync StorageArea
+    const maxes = {
+      MAX_ITEMS: Number.POSITIVE_INFINITY,
+      MAX_SUSTAINED_WRITE_OPERATIONS_PER_MINUTE: Number.POSITIVE_INFINITY,
+      MAX_WRITE_OPERATIONS_PER_HOUR: Number.POSITIVE_INFINITY,
+      MAX_WRITE_OPERATIONS_PER_MINUTE: Number.POSITIVE_INFINITY
+    };
+
+    // The template for a StorageArea
+    const storageAreas = {
+      get: (keys, callback) => {
+        if (typeof keys === 'string') {
+          keys = [keys];
+        }
+
+        if (!Array.isArray(keys)) {
+          keys = Object.keys(readPreviewStorage());
+        }
+
+        callback(
+          Object.keys(readPreviewStorage())
+            .filter((key) => keys.includes(key))
+            .reduce((object, key) => {
+              object[key] = readPreviewStorage()[key];
+              return object;
+            }, {})
+        );
+      },
+      set(items, callback = emptyFunction) {
+        for (const key of Object.keys(items)) {
+          writeToPreviewStorage(key, items[key]);
+        }
+        callback();
+      },
+      clear: (callback = emptyFunction) => {
+        clearPreviewStorage();
+        callback();
+      },
+      remove: (keys, callback = emptyFunction) => {
+        if (typeof keys === 'string') {
+          keys = [keys];
+        }
+
+        if (!Array.isArray(keys)) {
+          keys = Object.keys(readPreviewStorage());
+        }
+
+        for (const element of keys) {
+          removeFromPreviewStorage(element);
+        }
+        callback();
+      },
+      getBytesInUse: (keys, callback) => {
+        if (typeof keys === 'string') {
+          keys = [keys];
+        }
+
+        if (!Array.isArray(keys)) {
+          keys = Object.keys(readPreviewStorage());
+        }
+
+        callback(getBytes(keys));
+      }
+    };
+
+    // Define chrome.devtools API
+    chrome.devtools = {
+      panels: {
+        themeName: response.theme
+      },
+      inspectedWindow: {
+        /* eslint-disable-next-line no-eval */
+        eval,
+        reload: () => window.location.reload()
+      },
+      network: {}
+    };
+
+    // Define the chrome.extension API
+    chrome.extension = {
+      inIncognitoContext: response.inIncognito,
+      getURL(path) {
+        return 'chrome-extension://' + localStorage.getItem('extensionid') + '/' + path;
+      }
+    };
+
+    // The NONE IDs
+    chrome.tabs = {
+      TAB_ID_NONE: response.tabNoneID
+    };
+    chrome.windows = {
+      WINDOW_ID_NONE: response.windowNoneID
+    };
+
+    // Define the chrome.storage API using above templates and StorageArea class
+    chrome.storage = {
+      local: new StorageArea({...storageAreas, type: 'local'}),
+      sync: new StorageArea({...storageAreas, ...maxes, type: 'sync'})
+    };
+
+    // Take all the information and start up the panel
+    const htmlTemplate = `<!DOCTYPE html>
+<html>
+  <head></head>
+  <body></body>
+</html>
+`;
+    document.querySelector('html').remove();
+    if (typeof renderedUnpack.content === 'string') {
       document.write(renderedUnpack.content);
-      if (Array.isArray(renderedUnpack.styles)) {
-        renderedUnpack.styles.forEach((styleElement) => {
-          if (typeof styleElement === 'string') {
-            let nextStyle = document.createElement('style');
-            nextStyle.innerHTML = styleElement;
-            document.head.appendChild(nextStyle);
-          }
-        });
+      if (!document.head) {
+        document.querySelector('html').remove();
+        document.write(htmlTemplate);
+        document.write(renderedUnpack.content);
       }
-      if (Array.isArray(renderedUnpack.scripts)) {
-        renderedUnpack.scripts.forEach((scriptElement) => {
-          if (typeof scriptElement === 'string') {
-            let nextScript = document.createElement('script');
-            nextScript.innerHTML = scriptElement;
-            document.head.appendChild(nextScript);
-          }
-        });
+    } else {
+      document.write(htmlTemplate);
+    }
+
+    if (Array.isArray(renderedUnpack.styles)) {
+      for (const styleElement of renderedUnpack.styles) {
+        if (typeof styleElement === 'string') {
+          const nextStyle = document.createElement('style');
+          nextStyle.innerHTML = styleElement;
+          document.head.append(nextStyle);
+        }
       }
     }
-  );
+
+    if (Array.isArray(renderedUnpack.scripts)) {
+      for (const scriptElement of renderedUnpack.scripts) {
+        if (typeof scriptElement === 'string') {
+          const nextScript = document.createElement('script');
+          nextScript.innerHTML = scriptElement;
+          document.head.append(nextScript);
+        }
+      }
+    }
+
+    unpack = undefined;
+  });
 }

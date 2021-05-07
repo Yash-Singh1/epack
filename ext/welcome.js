@@ -4,30 +4,34 @@
  * @returns {Element} Returns the element welcomeElem which is the <p> tag welcome tag
  */
 function welcomeElement(bool) {
-  let welcomeElem = document.getElementById('welcome');
-  if (bool == true) {
-    console.log(welcomeElem);
+  const welcomeElement_ = document.querySelector('#welcome');
+  if (bool === true) {
+    console.log(welcomeElement_);
   }
-  return welcomeElem;
+
+  return welcomeElement_;
 }
 
 /**
- * Resets the welcome message to default: Welcome to extpark!
+ * Resets the welcome message to default: Welcome to epack!
  * @param {boolean} bool Prints out that the welcome message is reset
  * @returns {boolean} Returns whether there was a failure or not
  */
 function resetWelcomeMessage(bool) {
   try {
-    chrome.storage.sync.set({ welcome: 'Welcome to extpark!' });
-  } catch (err) {
-    if (bool == true) {
-      console.error('Failed to reset welcome message. ' + err);
+    chrome.storage.sync.set({welcome: 'Welcome to epack!'});
+  } catch (error) {
+    if (bool === true) {
+      console.error('Failed to reset welcome message. ' + error);
     }
+
     return false;
   }
-  if (bool == true) {
-    console.log('Reseted Welcome Message to => Welcome to extpark!');
+
+  if (bool === true) {
+    console.log('Reseted Welcome Message to => Welcome to epack!');
   }
+
   return true;
 }
 
@@ -38,16 +42,19 @@ function resetWelcomeMessage(bool) {
  */
 function removeWelcomeMessage(bool) {
   try {
-    chrome.storage.sync.set({ welcome: '' });
-  } catch (err) {
-    if (bool == true) {
-      console.log('Failed to remove welcome message. ' + err);
+    chrome.storage.sync.set({welcome: ''});
+  } catch (error) {
+    if (bool === true) {
+      console.log('Failed to remove welcome message. ' + error);
     }
+
     return false;
   }
-  if (bool == true) {
+
+  if (bool === true) {
     console.log('Successfully removed welcome message');
   }
+
   return true;
 }
 
@@ -58,37 +65,43 @@ function removeWelcomeMessage(bool) {
  */
 function setWelcomeMessage(string) {
   if (string === undefined) {
-    console.info('No string value specified, setting to: ' + '""');
+    console.info('No string value specified, setting to: ""');
     string = '';
   }
+
   if (typeof string !== 'string') {
     console.error('Please specify a string');
     return false;
   }
+
   try {
-    chrome.storage.sync.set({ welcome: string });
+    chrome.storage.sync.set({welcome: string});
   } catch {
     return false;
   }
+
   return true;
 }
 
 /**
- * Removes all panels inside the storage of extpark
+ * Removes all panels inside the storage of epack
  * @param {boolean} bool console.logs that the cached panels are removed
  * @returns {boolean} Returns whether there was a failure or not
  */
 function deletePanels(bool) {
   try {
-    chrome.storage.sync.set({ panels: [] });
-  } catch (err) {
-    if (bool == true) {
-      console.log('Failed to remove cached panels. ' + err);
+    chrome.storage.sync.set({panels: []});
+  } catch (error) {
+    if (bool === true) {
+      console.log('Failed to remove cached panels. ' + error);
     }
+
     return false;
   }
-  if (bool == true) {
+
+  if (bool === true) {
     console.log('Successfully removed all cached panels');
   }
+
   return true;
 }

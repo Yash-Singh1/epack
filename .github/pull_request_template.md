@@ -4,8 +4,8 @@
 
 ## Data
 
-<!-- Any issues, related documentation -->
+<!-- Any issues, related documentation, articles, etc. -->
 
 ## Implementation
 
-<!-- Brief information on your implementation -->
+<!-- Brief explanation on your implementation -->

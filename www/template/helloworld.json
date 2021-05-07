@@ -1,32 +1,58 @@
 {
-  "name": "Hello World",
+  "title": "Hello World",
   "tabs": [
     {
       "name": "HTML",
       "configuration": {
         "value": "<html>\n  <head>\n    <script>\n      // You can add an inline script\n    </script>\n    <style>\n      /*\n            You can also add in CSS in your HTML\n      */\n    </style>\n  </head>\n  <body>\n    <h1>Hello World!</h1>\n    <p>This was in the HTML file</p>\n  </body>\n</html>\n",
-        "lineNumbers": true,
         "mode": "htmlmixed",
-        "theme": "cobalt"
+        "placeholder": "Main HTML Content...",
+        "styleActiveLine": true,
+        "autoCloseBrackets": true,
+        "matchBrackets": true,
+        "showTrailingSpace": true,
+        "continueComments": true,
+        "scrollPastEnd": true,
+        "autoCloseTags": true,
+        "matchTags": {"bothTags": true}
       }
     },
     {
       "name": "SCRIPT1",
       "configuration": {
-        "value": "// Let's add in some HTML through this script\ndocument.write(\"<p>I was added in through the script!</p>\");\n\n// This will also put a <p> tag with the current DevTools theme\ndocument.write(\"<p>Theme: \" + chrome.devtools.panels.themeName + \"</p>\");\n\n// Now to stop writing and close the document\ndocument.close();\n",
-        "lineNumbers": true,
+        "value": "// Let’s add in some HTML through this script\ndocument.write(\"<p>I was added in through the script!</p>\");\n\n// This will also put a <p> tag with the current DevTools theme\ndocument.write(\"<p>Theme: \" + chrome.devtools.panels.themeName + \"</p>\");\n\n// Now to stop writing and close the document\ndocument.close();\n",
         "mode": "javascript",
-        "theme": "cobalt"
+        "placeholder": "JS Script...",
+        "styleActiveLine": true,
+        "autoCloseBrackets": true,
+        "matchBrackets": true,
+        "showTrailingSpace": true,
+        "continueComments": true,
+        "scrollPastEnd": true
       }
     },
     {
       "name": "STYLE1",
       "configuration": {
         "value": "/*\n    This will make all the <p> tags red\n*/\n\np {\n  color: red;\n}\n",
-        "lineNumbers": true,
         "mode": "javascript",
-        "theme": "cobalt"
+        "placeholder": "CSS Styling...",
+        "styleActiveLine": true,
+        "autoCloseBrackets": true,
+        "matchBrackets": true,
+        "showTrailingSpace": true,
+        "continueComments": true,
+        "scrollPastEnd": true
       }
     }
-  ]
+  ],
+  "settings": {
+    "inject": false,
+    "createPanel": true,
+    "actAsSidebar": false,
+    "matches": "<all_urls>",
+    "height": "default",
+    "width": "default",
+    "sidebar": false
+  }
 }

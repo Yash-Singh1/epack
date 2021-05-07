@@ -1,96 +1,91 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <script src="https://unpkg.com/codemirror@5.58.2/lib/codemirror.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/codemirror@5.58.2/lib/codemirror.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/codemirror@5.58.2/theme/cobalt.css"
-    />
-    <script src="https://unpkg.com/codemirror@5.58.2/mode/htmlmixed/htmlmixed.js"></script>
-    <script src="https://unpkg.com/codemirror@5.58.2/mode/javascript/javascript.js"></script>
-    <script src="https://unpkg.com/codemirror@5.58.2/mode/xml/xml.js"></script>
-    <script src="https://unpkg.com/codemirror@5.58.2/mode/css/css.js"></script>
-    <script src="https://unpkg.com/darkreader@4.9.22/darkreader.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://extpark.github.io/monkeyIDE/style.css"
-    />
-    <link rel="stylesheet" href="style/index.css" />
-    <link rel="stylesheet" href="style/customTheme.css" />
+    <!-- Generated SEO tags -->
+    <title>epack - Build DevTools Panels and Sidebars in the browser</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="Build DevTools Panels and Sidebars in the browser." />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Lots of CSS & JS -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style/loader.css" />
+    <link rel="stylesheet" href="/node_modules/monkeyide/style.css" />
+    <link rel="stylesheet" href="style/customTheme.css" />
+    <link rel="stylesheet" href="/node_modules/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="/node_modules/codemirror/theme/cobalt.css" />
+    <link rel="stylesheet" href="/node_modules/codemirror/theme/base16-light.css" />
+    <link rel="stylesheet" href="/node_modules/codemirror/addon/dialog/dialog.css" />
+    <link rel="stylesheet" href="/node_modules/codemirror/addon/fold/foldgutter.css" />
+    <link rel="stylesheet" href="style/index.css" />
+    <script src="/node_modules/codemirror/lib/codemirror.js"></script>
+    <script src="/node_modules/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="/node_modules/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/node_modules/codemirror/mode/xml/xml.js"></script>
+    <script src="/node_modules/codemirror/mode/css/css.js"></script>
+    <script src="/node_modules/codemirror/addon/dialog/dialog.js"></script>
+    <script src="/node_modules/codemirror/addon/display/placeholder.js"></script>
+    <script src="/node_modules/codemirror/addon/selection/active-line.js"></script>
+    <script src="/node_modules/codemirror/addon/comment/comment.js"></script>
+    <script src="/node_modules/codemirror/addon/comment/continuecomment.js"></script>
+    <script src="/node_modules/codemirror/addon/fold/foldcode.js"></script>
+    <script src="/node_modules/codemirror/addon/fold/foldgutter.js"></script>
+    <script src="/node_modules/codemirror/addon/fold/brace-fold.js"></script>
+    <script src="/node_modules/codemirror/addon/fold/comment-fold.js"></script>
+    <script src="/node_modules/codemirror/addon/fold/xml-fold.js"></script>
+    <script src="/node_modules/codemirror/addon/edit/closebrackets.js"></script>
+    <script src="/node_modules/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="/node_modules/codemirror/addon/edit/closetag.js"></script>
+    <script src="/node_modules/codemirror/addon/edit/matchtags.js"></script>
+    <script src="/node_modules/codemirror/addon/edit/trailingspace.js"></script>
+    <script src="/node_modules/codemirror/addon/search/searchcursor.js"></script>
+    <script src="/node_modules/codemirror/addon/search/search.js"></script>
+    <script src="/node_modules/codemirror/addon/search/jump-to-line.js"></script>
+    <script src="/node_modules/codemirror/addon/scroll/scrollpastend.js"></script>
+    <script src="ide-keys.js"></script>
+    <script src="/node_modules/darkreader/darkreader.js"></script>
+    <script src="/node_modules/sortablejs/Sortable.min.js"></script>
   </head>
-  <body>
+  <body class="dark">
+    <!-- Loader, see style/loader.css -->
     <div id="loaderContainer">
-      <span class="loader">Load&nbsp;ng</span>
+      <span class="loader"></span>
     </div>
-    <img
-      src="img/create.png"
-      id="create"
-      class="createPNG"
-      alt="create"
-      title="Create"
-    />
-    <h3 id="current-panel-wrapper">
+
+    <!-- Toolbar icons and actions -->
+    <header>
+      <img src="img/delete.png" id="delete" alt="delete" title="Delete" class="pointer" />
+      <img src="img/save.png" id="save" alt="save" title="Save" class="pointer" />
+      <a id="preview-panel" target="_blank">
+        <img src="img/preview.svg" alt="preview" title="Preview" class="pointer" />
+      </a>
+      <img src="img/switch.png" id="switch" alt="switch" title="Switch" class="pointer" />
+      <img src="img/deploy.png" id="deploy" alt="deploy" title="Deploy" class="pointer" />
+      <img src="img/dup.png" id="duplicate" alt="duplicate" title="Duplicate" class="pointer" />
+      <img src="img/settings.png" id="settings" alt="settings" title="Settings" class="pointer" />
+    </header>
+
+    <img src="img/create.png" id="create" alt="create" title="Create" class="pointer" />
+
+    <!-- Current Panel and Info Box -->
+    <h2 id="current-panel-wrapper">
       Current Panel:
       <strong id="current-panel"></strong>
-    </h3>
-    <img
-      src="img/delete.png"
-      id="delete"
-      class="deletePNG"
-      alt="delete"
-      title="Delete"
-    />
-    <img src="img/save.png" id="save" class="savePNG" alt="save" title="Save" />
-    <a id="preview-panel" target="_blank">
-      <img
-        src="img/preview.png"
-        class="previewPNG"
-        alt="preview"
-        title="Preview"
-      />
-    </a>
-    <img
-      src="img/switch.png"
-      id="switch"
-      class="switchPNG"
-      alt="switch"
-      title="Switch"
-    />
-    <img
-      src="img/deploy.png"
-      id="deploy"
-      class="deployPNG"
-      alt="deploy"
-      title="Deploy"
-    />
-    <img
-      src="img/duplicate.png"
-      id="duplicate"
-      class="duplicatePNG"
-      alt="duplicate"
-      title="Duplicate"
-    />
-    <img
-      src="img/settings.png"
-      id="settings"
-      class="settingsPNG"
-      alt="settings"
-      title="Settings"
-    />
-    <script src="https://extpark.github.io/monkeyIDE/index.js"></script>
-    <dialog id="favDialog">
+      <img id="info" src="img/info.png" />
+      <div id="info-dialog">Information:<br />There isn’t any panel open</div>
+    </h2>
+
+    <!-- The monkeyide source code -->
+    <script src="/node_modules/monkeyide/index.js"></script>
+
+    <!-- Create Blank Panel Dialog -->
+    <dialog id="createBlankDialog">
       <form method="dialog">
-        <input
-          id="name"
-          autocapitalize="off"
-          autocomplete="off"
-          spellcheck="false"
-        />
+        <input id="name" autocapitalize="off" spellcheck="false" type="text" />
         <p id="status">That input is invalid</p>
+        <input id="includehtml" type="checkbox" checked />
+        <label for="includehtml">Include HTML</label>
         <div id="styles-setter">
           <p id="styles-label">Styles:</p>
           <input id="style-number" value="0" type="number" min="0" step="1" />
@@ -100,108 +95,140 @@
           <input id="scripts-number" value="0" type="number" min="0" step="1" />
         </div>
         <menu class="menus">
-          <button id="confirmBtn" class="actions">Create</button>
+          <button id="createBlankBtn" class="actions">Create</button>
           <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
+
+    <!-- Switch Panel Dialog -->
     <dialog id="switchDialog">
       <form method="dialog">
         <label for="panelData">Which panel would you like to switch to?</label>
         <select class="select-css" name="panelData" id="panelData"></select>
         <menu class="menus">
-          <button id="confirmBtn2" class="actions">Switch</button>
+          <button id="confirmSwitchBtn" class="actions">Switch</button>
           <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
+
+    <!-- Deploy Panel Dialog -->
     <dialog id="deployDialog">
       <form method="dialog">
         <div id="deployChecks"></div>
         <menu class="menus">
-          <button id="confirmBtn3" class="actions">Deploy</button>
+          <button id="deployBtn" class="actions">Deploy</button>
           <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
+
+    <!-- Delete Panel Dialog -->
     <dialog id="deleteDialog">
       <form method="dialog">
         <div id="deleteChecks"></div>
         <menu class="menus">
-          <button id="confirmBtn4" class="actions">Delete</button>
+          <button id="deleteBtn" class="actions">Delete</button>
           <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
+
+    <!-- Duplicate Panel Dialog -->
     <dialog id="duplicateDialog">
       <form method="dialog">
-        <input
-          id="duplicateName"
-          autocapitalize="off"
-          autocomplete="off"
-          spellcheck="false"
-        />
+        <input id="duplicateName" autocapitalize="off" spellcheck="false" type="text" />
         <p id="duplicateStatus">That input is invalid</p>
         <menu class="menus">
-          <button id="confirmBtn5" class="actions">Create</button>
+          <button id="duplicateBtn" class="actions">Create</button>
           <button class="actions">Cancel</button>
         </menu>
       </form>
     </dialog>
+
+    <!-- Settings Dialog (Global and Panel) -->
     <dialog id="settingsDialog">
       <form method="dialog">
         <details id="panelSettings">
           <summary>Panel Settings</summary>
+          <div id="panelSettingsContainer"></div>
         </details>
         <details id="globalSettings">
           <summary>Global Settings</summary>
+          <div id="globalContainer"></div>
         </details>
+        <button class="actions">Close</button>
       </form>
     </dialog>
+
+    <!-- Saved Confirmation Prompt -->
     <dialog id="done-saved-dialog">
       <form method="dialog">
-        <img id="done-saving-check" src="img/form-checkmark.png" />
-        <h1 id="done-with-it">Saved!</h1>
+        <img id="done-saving-check" src="img/check.svg" loading="lazy" />
+        <h1 id="done-with-it"></h1>
         <menu class="menus">
           <button class="actions">Close</button>
         </menu>
       </form>
     </dialog>
+
+    <!-- Are you Sure? Popup -->
+    <dialog id="sureOrNot">
+      <form method="dialog">
+        <menu class="menus">
+          <h1 id="sureHeader">Are you Sure?</h1>
+          <button class="actions" id="yesSure">Yes</button>
+          <button class="actions" id="notSure">No</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <!-- Template or Blank Option Dialog -->
     <dialog id="templateOrBlank">
       <form method="dialog">
         <menu class="menus">
           <button class="template" id="createBlank">
-            <img class="templateImg" src="img/blank.png" />
+            <img id="blankPNG" class="templateImg" src="img/blank.png" loading="lazy" />
             <br />
-            Blank
+            <p class="templateText">Blank</p>
           </button>
           <button class="template" id="createTemplate">
-            <img class="templateImg" src="img/template.png" />
+            <img class="templateImg" src="img/template.png" loading="lazy" />
             <br />
-            Template
+            <p class="templateText">Template</p>
           </button>
-          <button class="actions">Close</button>
+          <button class="actions" id="close-settings">Close</button>
         </menu>
       </form>
     </dialog>
+
+    <!-- Choose from templates dialog -->
     <dialog id="templateChooser">
       <form method="dialog">
         <menu class="menus" id="templateMenu"></menu>
       </form>
     </dialog>
+
+    <!-- Auto-Save Box -->
     <div id="notSaved" class="savedBox"></div>
+
+    <!-- Cookie Banner -->
     <div id="cookie-banner" style="display: none">
-      <p>
-        This site uses cookies
-        <button id="close">&times;</button>
-      </p>
+      <p>This site uses cookies <button id="close" class="pointer">&times;</button></p>
     </div>
-    <h1 id="msgStart">
+
+    <!-- Start Message -->
+    <h1 id="msgStart" style="display: none">
       <strong>
-        Welcome to extpark!<br>
+        Welcome to <code>epack</code>!<br />
         To get started click on the create icon on the bottom right
       </strong>
     </h1>
+
+    <!-- The helper function unpack and common helpers and the main source code -->
+    <script src="unpack.js"></script>
+    <script src="common-helpers.js"></script>
     <script src="index.js"></script>
   </body>
 </html>

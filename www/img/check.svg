@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" style="overflow: visible;">
+  <rect transform="rotate(30) translate(75, 75)" width="80" height="20" fill="green" />
+  <rect transform="rotate(-60) translate(-95, 145)" width="130" height="20" fill="green" />
+</svg>

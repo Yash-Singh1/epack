@@ -1,23 +1,20 @@
 /* #region Styling for the action buttons */
 
 .actions {
-  margin-top: 10px;
-  margin-right: 25%;
+  margin-top: 5px;
+  text-align: center;
   text-transform: uppercase;
   background-image: none;
   border-radius: 4px;
-  box-shadow: none;
-  box-sizing: border-box;
+  cursor: pointer;
   font-weight: 500;
   font-size: 14px;
-  height: 36px;
   letter-spacing: 0.25px;
   line-height: 16px;
   padding: 9px 24px 11px 24px;
   background-color: #fff;
   border: 1px solid #dadce0 !important;
   color: #202124;
-  cursor: pointer;
   width: 100%;
   transition: background-color 0.5s;
 }
@@ -27,69 +24,66 @@
   transition: background-color 0.5s;
 }
 
-.savePNG {
+#delete {
+  height: 2.7%;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+}
+
+#save {
   height: 3%;
   position: absolute;
   top: 8px;
   right: 60px;
-  cursor: pointer;
 }
 
-.previewPNG {
+#preview-panel > img {
+  height: 5%;
+  position: absolute;
+  top: 3px;
+  right: 80px;
+}
+
+#switch {
   height: 3%;
   position: absolute;
   top: 8px;
-  right: 94px;
+  right: 128px;
 }
 
-.createPNG {
+#deploy {
+  height: 3%;
+  position: absolute;
+  top: 8px;
+  right: 162px;
+}
+
+#duplicate {
+  height: 3%;
+  position: absolute;
+  top: 8px;
+  right: 196px;
+}
+
+#settings {
+  height: 3%;
+  position: absolute;
+  top: 8px;
+  right: 230px;
+}
+
+#create {
   height: 6%;
   position: absolute;
   top: 93%;
   right: 15px;
-  cursor: pointer;
   background-color: rgb(41, 120, 139);
   background-position: top;
   border-radius: 10px;
 }
 
-.switchPNG {
-  height: 3%;
-  position: absolute;
-  top: 8px;
-  right: 128px;
-  cursor: pointer;
-}
-
-.deletePNG {
-  height: 2.7%;
-  position: absolute;
-  top: 9px;
-  right: 26px;
-  cursor: pointer;
-}
-
-.deployPNG {
-  height: 3%;
-  position: absolute;
-  top: 8px;
-  right: 162px;
-  cursor: pointer;
-}
-
-.duplicatePNG {
-  height: 3%;
-  position: absolute;
-  top: 8px;
-  right: 196px;
-  cursor: pointer;
-}
-
-.settingsPNG {
-  height: 3%;
-  position: absolute;
-  top: 8px;
-  right: 230px;
+.pointer {
   cursor: pointer;
 }
 
@@ -99,12 +93,13 @@
 
 #name,
 #duplicateName {
-  margin-left: 20%;
+  margin-left: 15%;
+  outline: none;
 }
 
 /* #endregion */
 
-/* #region Style all of the dropdown menus */
+/* #region Style all of the dropdown menus {@link https://css-tricks.com/styling-a-select-like-its-2019/} */
 
 .select-css {
   display: block;
@@ -151,18 +146,18 @@
   font-weight: 400;
 }
 
-:root:lang(ar) .select-css,
-:root:lang(iw) .select-css,
-[dir='rtl'] .select-css {
-  background-position: left 0.7em top 50%, 0 0;
-  padding: 0.6em 0.8em 0.5em 1.4em;
-}
-
 .select-css:disabled,
 .select-css[aria-disabled='true'] {
   color: graytext;
   background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
     linear-gradient(to bottom, #fff 0, #e5e5e5 100%);
+}
+
+[dir='rtl'] .select-css,
+:root:lang(ar) .select-css,
+:root:lang(iw) .select-css {
+  background-position: left 0.7em top 50%, 0 0;
+  padding: 0.6em 0.8em 0.5em 1.4em;
 }
 
 .select-css:disabled:hover,
@@ -193,17 +188,19 @@
 
 .savedBox {
   background-color: rgb(44, 10, 83) !important;
+  color: white;
   width: 5%;
   height: 5%;
   text-align: center;
   position: fixed;
   line-height: 65%;
-  bottom: 3px;
-  right: 95%;
+  bottom: 10px;
+  right: 94.5%;
 }
 
-#done-with-it {
-  margin-left: 45%;
+body.dark #done-with-it {
+  cursor: text;
+  text-align: center;
   color: white;
 }
 
@@ -221,7 +218,10 @@
 }
 
 .tabcontent {
-  height: 80%;
+  height: 75%;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 /* #endregion */
@@ -230,6 +230,17 @@
 
 #panelData {
   margin-top: 20px;
+}
+
+label[for='checkbox-linewrapping-global-settings'],
+label[for='checkbox-linenumbers-global-settings'],
+label[for='checkbox-fold-global-settings'],
+label[for='sortable-items-ordering-when-initialized'] {
+  margin-left: 5px;
+}
+
+body.dark [id*='Checks'] > label[for*='checkbox-'] {
+  color: white;
 }
 
 #status,
@@ -254,18 +265,60 @@
   margin-left: 20%;
 }
 
+#includehtml {
+  margin-left: 30%;
+}
+
+label[for='includehtml'] {
+  margin-right: 20%;
+}
+
 /* #endregion */
 
-/* #region CSS specific for the template choosing */
+/* #region Settings */
+
+#settingsDialog {
+  width: 50%;
+  height: 50%;
+  overflow-y: visible;
+  overflow-x: hidden;
+}
+
+#embeddedEditor {
+  margin-top: 10px;
+}
+
+#globalSettings {
+  margin-top: 5px;
+}
+
+#globalSettings,
+#panelSettings {
+  font-size: larger;
+}
+
+.nested-details {
+  font-size: large;
+  margin-left: 2%;
+}
+
+#sureOrNot > form[method='dialog'] > menu.menus > h1#sureHeader {
+  text-align: center;
+}
+
+/* #endregion */
+
+/* #region Template Options */
 
 .template {
   background-color: rgba(0, 0, 0, 0);
   border: none;
+  outline: none;
+  cursor: pointer;
   margin-left: 50px;
 }
 
 .templateImg {
-  float: left;
   width: 100px;
   height: 100px;
   object-fit: cover;
@@ -275,11 +328,16 @@
   text-transform: none !important;
 }
 
+.templateText {
+  font-size: 120%;
+}
+
 /* #endregion */
 
 /* #region Cookie banner */
 
 #cookie-banner {
+  display: inline-block;
   position: fixed;
   bottom: 40px;
   right: 42%;
@@ -298,8 +356,32 @@
   border: none;
   color: white;
   border-radius: 2px;
-  cursor: pointer;
-  margin-left: 10px;
+}
+
+/* #endregion */
+
+/* #region Info Box */
+
+#info {
+  width: 1%;
+  cursor: help;
+}
+
+#info-dialog {
+  position: absolute;
+  background-color: #2d3344ef;
+  cursor: text;
+  z-index: 10;
+  top: 3%;
+  display: none;
+}
+
+body:not(.dark) #info-dialog {
+  color: white;
+}
+
+#info:hover ~ #info-dialog {
+  display: inline;
 }
 
 /* #endregion */
@@ -311,10 +393,89 @@
   width: 50%;
   border: 3px solid green;
   padding: 10px;
-  position: relative;
+  position: absolute;
   top: 50%;
+  left: 25%;
   text-align: center;
   font-size: 150%;
+}
+
+code {
+  letter-spacing: 0;
+  font-weight: 600;
+  border-radius: 5px;
+  margin: 0 2px;
+  padding: 1px 5px;
+  white-space: pre-wrap;
+  font-family: Roboto Mono, Monaco, courier, monospace;
+  color: rgb(242, 136, 50);
+  font-size: 2rem !important;
+}
+
+body.dark code {
+  background-color: rgb(38, 40, 41);
+}
+
+body:not(.dark) code {
+  background-color: rgb(100, 130, 131);
+}
+
+/* #endregion */
+
+/* #region Sortable lists */
+
+.sortable-selected {
+  background-color: #34e03d !important;
+  border: solid rgb(108, 241, 148) 3px !important;
+  z-index: 1 !important;
+}
+
+.blue-background-class {
+  background-color: #c8ebfb;
+}
+
+.col {
+  padding-right: 0;
+  margin-left: 20px;
+}
+
+.list-group-item {
+  -webkit-tap-highlight-color: transparent;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  font-family: 'Baloo Bhai 2', cursive;
+  box-sizing: border-box;
+  position: relative;
+  cursor: grab;
+  display: block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: -1px;
+  background-color: rgb(31, 107, 194);
+  border: 5px solid rgba(0, 163, 136, 0.986);
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+/* #endregion */
+
+/* #region Dark and Light Mode Theming */
+
+/* Changed dialog background colors to look better on dark mode */
+body.dark dialog {
+  background-color: rgb(49, 19, 105);
+}
+
+/* Does some prevention of the white flash before loading webpage */
+body.dark {
+  background-color: black;
+}
+
+/* Fix the lighting on the preview panel image */
+body:not(.dark) #preview-panel > img {
+  filter: invert(1);
 }
 
 /* #endregion */
@@ -337,27 +498,22 @@ a:active {
 
 /* Customize fonts */
 * {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 99%;
+  font-family: 'Baloo Bhai 2', cursive;
+  font-weight: bold;
+  font-size: 102% !important;
+  line-height: 120%;
 }
 
-/* Changed dialog background colors to look better on dark mode */
-dialog {
-  background-color: rgb(49, 19, 105);
-}
-
-/* Make the label stand out on the background */
-label[for='panelData'] {
-  color: white;
-}
-
-/* Prevent scrollbars */
+/* Prevent scrollbars and wait cursor */
 body {
   overflow: hidden;
+  cursor: wait;
 }
 
 /* Prevent highlighting of images and cookies close button */
-img, button#close {
+img,
+button#close,
+.templateText {
   -khtml-user-select: none;
   -o-user-select: none;
   -moz-user-select: none;
@@ -365,9 +521,47 @@ img, button#close {
   user-select: none;
 }
 
-/* Does some prevention of the white flash before loading webpage */
-body {
-  background-color: black;
+/* Embedded editor in iframe */
+iframe {
+  width: 50vw;
+  height: 500px;
+  outline: none;
+  border: none;
+}
+
+/* Style the summaries not to be bordered and to be considered as text */
+details > summary {
+  border: none;
+  outline: none;
+}
+
+/* Added text cursor */
+label,
+p,
+details > summary,
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  cursor: text;
+}
+
+/* Make the expand button act as a button with pointer cursor */
+details > summary::-webkit-details-marker {
+  cursor: pointer;
+}
+
+input[type='checkbox'] {
+  cursor: pointer;
+  pointer-events: fill;
+}
+
+/* Colored classes */
+.red {
+  color: red;
 }
 
 /* #endregion */

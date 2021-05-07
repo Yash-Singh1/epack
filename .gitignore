@@ -5,3 +5,10 @@
 # Dependencies
 node_modules/
 package-lock.json
+
+# Builds
+dist/
+dist.zip
+
+# Cache
+.eslintcache
