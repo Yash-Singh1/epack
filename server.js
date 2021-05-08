@@ -2,15 +2,8 @@
 
 process.title = 'epack-site';
 const fs = require('fs');
-const RateLimit = require('express-rate-limit');
 const express = require('express');
 const app = express();
-app.use(
-  new RateLimit({
-    windowMs: 1000,
-    max: 1
-  })
-);
 
 const port = process.env.PORT || 1534;
 const rootDocs = new Set(['README.md', 'ROADMAP.md', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'LICENSE.md', 'ARCHITECTURE.md']);
