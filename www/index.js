@@ -52,7 +52,9 @@ function stringifiedPack(query) {
  * @param {string} newer The newer panel
  */
 ide.switchPanel = function (current, newer) {
-  current !== null ? localStorage.setItem(current, stringifiedPack(current.slice(4))) : undefined;
+  if (current !== null) {
+    localStorage.setItem(current, stringifiedPack(current.slice(4)));
+  }
   localStorage.setItem('current', newer);
   ide.removeAll();
   ide.large(parseJSON(parseJSON(handleNull(newer)).tabs));
@@ -317,8 +319,8 @@ function getBytes(array, preview) {
 function switchInfoMessage(panel) {
   panelName = panel.slice(4);
 
-  const bytes = getBytes(undefined, true);
-  const mainBytes = getBytes(undefined, false);
+  const bytes = humanFormat.bytes(getBytes(undefined, true));
+  const mainBytes = humanFormat.bytes(getBytes(undefined, false));
   const tabs = parseJSON(parseJSON(localStorage.getItem(panel)).tabs);
 
   byId('info-dialog').innerHTML = `Information:
@@ -422,6 +424,36 @@ function areYouSureClear() {
 }
 
 /**
+ * Runs on Settings > Panel Settings > Danger Zone > Convert to Sidebar
+ */
+function areYouSureConvertToSidebar() {
+  areyousure = (sure) => {
+    if (sure) {
+      setLocalSetting(ide.currentPanel, 'type', 'sidebar');
+      setLocalSetting(ide.currentPanel, 'matches', ['elementsPanel', 'sourcesPanel']);
+      setLocalSetting(ide.currentPanel, 'height', 'default');
+      setLocalSetting(ide.currentPanel, 'width', 'default');
+    }
+  };
+  showIt(byId('sureOrNot'));
+}
+
+/**
+ * Runs on Settings > Panel Settings > Danger Zone > Convert to Panel
+ */
+function areYouSureConvertToPanel() {
+  areyousure = (sure) => {
+    if (sure) {
+      setLocalSetting(ide.currentPanel, 'type', 'panel');
+      setLocalSetting(ide.currentPanel, 'matches');
+      setLocalSetting(ide.currentPanel, 'height');
+      setLocalSetting(ide.currentPanel, 'width');
+    }
+  };
+  showIt(byId('sureOrNot'));
+}
+
+/**
  * Shows a dialog modal
  * @param {HTMLDialogElement} modal The modal
  */
@@ -429,7 +461,7 @@ function showIt(modal) {
   if (typeof modal.showModal === 'function') {
     return modal.showModal();
   }
-
+  /* eslint-disable-next-line no-alert */
   alert('The <dialog> API is not supported by this browser');
 }
 
@@ -561,7 +593,7 @@ const duplicateStatus = byId('duplicateStatus');
 const settingsDialog = byId('settingsDialog');
 
 const darkMediaQuery = '(prefers-color-scheme: dark)';
-var darkModeOn = false;
+let darkModeOn = false;
 
 const sizes = ['default', '100%'];
 
@@ -592,19 +624,13 @@ const globalTemplate = {
   fold: true
 };
 const localTemplate = {
-  createPanel: true,
-  actAsSidebar: false,
-  height: 'default',
-  width: 'default',
-  sidebar: false
+  type: 'panel'
 };
 const sidebarTemplate = {
-  createPanel: false,
-  actAsSidebar: true,
+  type: 'sidebar',
   matches: ['elementsPanel', 'sourcesPanel'],
   height: 'default',
-  width: 'default',
-  sidebar: true
+  width: 'default'
 };
 
 const globalSettingsFromStorage = localStorage.getItem('settings');
@@ -760,8 +786,7 @@ createBlankDialog.addEventListener('close', () => {
     }
 
     // Ensure ordering is right
-    let ordering;
-    ordering =
+    let ordering =
       getGlobalSetting('orderingOfCreation').sort()[0] !== 'HTML' ||
       getGlobalSetting('orderingOfCreation').sort()[1] !== 'SCRIPT' ||
       getGlobalSetting('orderingOfCreation').sort()[2] !== 'STYLE' ||
@@ -1137,20 +1162,60 @@ byId('settings').addEventListener('click', () => {
   } else {
     if (typeof constructPanelSettings !== 'function') {
       /**
-       * Constructs the panelSettings that should be presented to the user
+       * Constructs the panel settings that should be presented to the user
        * @returns {string} The innerHTML needed
        */
       window.constructPanelSettings = function () {
         const querySettings = parseJSON(parseJSON(localStorage.getItem(ide.currentPanel)).settings);
-        return '';
+        return (
+          (querySettings.type === 'sidebar'
+            ? '<details class="nested-details">' +
+              '<summary>Height/Width</summary>' +
+              `<div id="resize-container"><div id="resize" style="width: ${
+                querySettings.width === 'default' ? '100px' : querySettings.width + 'px'
+              }; height: ${querySettings.height === 'default' ? '100px' : querySettings.height + 'px'};"></div></div>` +
+              `<span id="resize-info">${querySettings.width} x ${querySettings.height}</span>` +
+              '</details>' +
+              '<details class="nested-details">' +
+              '<summary>Matches</summary>' +
+              `<input type="checkbox" id="elements" name="elements" onclick="setLocalSetting(ide.currentPanel, 'matches', event.target.checked ? [...getLocalSetting(ide.currentPanel, 'matches'), 'elementsPanel'] : getLocalSetting(ide.currentPanel, 'matches').filter(match => match !== 'elementsPanel'))"${
+                getLocalSetting(ide.currentPanel, 'matches').includes('elementsPanel') ? ' checked' : ''
+              } />` +
+              '<label for="elements">Elements Panel</label>' +
+              '<br />' +
+              `<input type="checkbox" id="sources" name="sources" onclick="setLocalSetting(ide.currentPanel, 'matches', event.target.checked ? [...getLocalSetting(ide.currentPanel, 'matches'), 'sourcesPanel'] : getLocalSetting(ide.currentPanel, 'matches').filter(match => match !== 'sourcesPanel'))"${
+                getLocalSetting(ide.currentPanel, 'matches').includes('sourcesPanel') ? ' checked' : ''
+              } />` +
+              '<label for="elements">Sources Panel</label>' +
+              '</details>'
+            : '') +
+          '<details class="nested-details">' +
+          '<summary class="red">Danger Zone</summary>' +
+          (querySettings.type === 'panel'
+            ? '<button onclick="areYouSureConvertToSidebar()" class="actions">Convert to Sidebar</button>'
+            : '<button onclick="areYouSureConvertToPanel()" class="actions">Convert to Panel</button>') +
+          '</details>'
+        );
       };
     }
 
     enable(byId('panelSettings'));
     byId('panelSettingsContainer').innerHTML = constructPanelSettings();
+    const innerResizeBox = document.getElementById('resize');
+    if (innerResizeBox !== null) {
+      new ResizeSensor(innerResizeBox, () => {
+        if (getLocalSetting(ide.currentPanel, 'height') === 0 && getLocalSetting(ide.currentPanel, 'width') === 100) {
+          return;
+        }
+        document.getElementById('resize-info').innerHTML =
+          (innerResizeBox.offsetWidth === 100 ? 'default' : innerResizeBox.offsetWidth + '%') +
+          ' x ' +
+          (innerResizeBox.offsetHeight === 100 ? 'default' : innerResizeBox.offsetHeight + '%');
+        setLocalSetting(ide.currentPanel, 'width', innerResizeBox.offsetWidth === 100 ? 'default' : innerResizeBox.offsetWidth);
+        setLocalSetting(ide.currentPanel, 'height', innerResizeBox.offsetHeight === 100 ? 'default' : innerResizeBox.offsetHeight);
+      });
+    }
   }
-
-  order = undefined;
 
   if (typeof constructGlobalSettings !== 'function') {
     /**
@@ -1158,7 +1223,7 @@ byId('settings').addEventListener('click', () => {
      * @returns {string} The innerHTML needed for the user
      */
     window.constructGlobalSettings = function () {
-      let settingsJSON = localStorage.getItem('settings') !== null ? parseJSON(localStorage.getItem('settings')) : null;
+      let settingsJSON = localStorage.getItem('settings') === null ? null : parseJSON(localStorage.getItem('settings'));
       if (settingsJSON === null) {
         localStorage.setItem('settings', JSON.stringify(globalTemplate));
         settingsJSON = globalTemplate;
@@ -1214,13 +1279,13 @@ byId('settings').addEventListener('click', () => {
   }
 
   byId('globalContainer').innerHTML = constructGlobalSettings();
-  let settingsJSON = localStorage.getItem('settings') !== null ? parseJSON(localStorage.getItem('settings')) : null;
+  let settingsJSON = localStorage.getItem('settings') === null ? null : parseJSON(localStorage.getItem('settings'));
   if (settingsJSON === null) {
     localStorage.setItem('settings', JSON.stringify(globalTemplate));
     settingsJSON = globalTemplate;
   }
 
-  var order = new Sortable(byId('sortable-items-ordering-when-initialized'), {
+  let order = new Sortable(byId('sortable-items-ordering-when-initialized'), {
     onUpdate: (event_) => {
       setGlobalSetting('orderingOfCreation', order.toArray());
     },

@@ -20,7 +20,7 @@ if (typeof chrome.devtools.panels.themeName === 'string') {
  */
 function initDevTools(panels) {
   for (const panel of panels) {
-    if (panel.settings.createPanel === true) {
+    if (panel.settings.type === 'panel') {
       chrome.devtools.panels.create(panel.title, 'empty.png', 'panel.html', (extensionPanel) => {
         extensionPanel.onShown.addListener((panelWindow) => {
           if (panelWindow.document.querySelector('resetDevtools') === null) {
@@ -111,17 +111,16 @@ function initDevTools(panels) {
       });
     } else if (panel.settings.matches.includes('elementsPanel') || panel.settings.matches.includes('sourcesPanel')) {
       for (const match of panel.settings.matches) {
+        console.log(match);
         if (['elementsPanel', 'sourcesPanel'].includes(match)) {
           chrome.devtools.panels[match === 'elementsPanel' ? 'elements' : 'sources'].createSidebarPane(panel.title, (sidebar) => {
+            sidebar.setPage('panel.html');
             if (panel.settings.height !== 'default' && typeof panel.settings.height === 'string') {
-              sidebar.setHeight(panel.settings.height);
+              sidebar.setHeight(panel.settings.height + '%');
             }
-
             if (panel.settings.width !== 'default' && typeof panel.settings.width === 'string') {
-              sidebar.setWidth(panel.settings.width);
+              sidebar.setWidth(panel.settings.width + '%');
             }
-
-            sidebar.setPage('sandbox.html');
             sidebar.onShown.addListener((panelWindow) => {
               sidebar.onShown.removeListener();
               panelWindow.document.querySelector('#sandbox').contentWindow.postMessage(

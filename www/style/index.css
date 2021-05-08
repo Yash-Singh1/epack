@@ -302,8 +302,28 @@ label[for='includehtml'] {
   margin-left: 2%;
 }
 
-#sureOrNot > form[method='dialog'] > menu.menus > h1#sureHeader {
+#sureOrNot h1 {
   text-align: center;
+}
+
+#resize-container {
+  background-color: #708ad3cb;
+  width: 100px;
+  height: 100px;
+  min-width: 1px;
+  min-height: 1px;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+#resize {
+  background-color: #78b65bab;
+  resize: both;
+  overflow: auto;
+  min-width: inherit;
+  min-height: inherit;
+  max-width: inherit;
+  max-height: inherit;
 }
 
 /* #endregion */

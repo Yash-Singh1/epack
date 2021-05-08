@@ -13,8 +13,6 @@ function unpack(panel, panelName) {
     return typeof content === 'string' && content !== '' ? JSON.parse(content) : content;
   }
 
-  let index;
-
   /**
    * Searches through a list for a name
    * @param {object[]} lst List of objects

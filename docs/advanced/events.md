@@ -1,6 +1,7 @@
 # Events
 
 Multiple events occur inside a Chrome DevTools Panel. `epack` allows you to listen for these events simply by defining a function in the `Window` object.
+Note that these events don't trigger in sidebars.
 Here is a list of callbacks and their arguments. _Brought from the official chrome.devtools documentation and MDN documentation_:
 
 ## onShown

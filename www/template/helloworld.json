@@ -47,12 +47,6 @@
     }
   ],
   "settings": {
-    "inject": false,
-    "createPanel": true,
-    "actAsSidebar": false,
-    "matches": "<all_urls>",
-    "height": "default",
-    "width": "default",
-    "sidebar": false
+    "type": "panel"
   }
 }

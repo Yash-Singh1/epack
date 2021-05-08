@@ -50,23 +50,19 @@ app.get('/*', (request, response) => {
   }
 
   // Figure out which file to send, sometimes it is different then requested
-  let file;
+  let file = request.path.slice(1);
   if (request.path === '/') {
     file = 'index.html';
   } else if (request.path === '/LICENSE.md') {
     file = 'LICENSE';
-  } else {
-    file = request.path.slice(1);
   }
 
   // Determine the root from which to send the file
-  let root;
+  let root = './www/';
   if (request.path.startsWith('/node_modules/')) {
     root = './';
   } else if (request.subdomains[0] === 'docs' && request.subdomains.length === 1) {
     root = rootDocs.has(request.path.slice(1)) || request.path.startsWith('/img/') ? './' : './docs/';
-  } else {
-    root = './www/';
   }
 
   // Prevent loads of 404 logs

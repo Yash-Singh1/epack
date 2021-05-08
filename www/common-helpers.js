@@ -52,8 +52,8 @@ function refreshAll() {
 ide.createTab = (function () {
   const cachedFunction = ide.createTab;
 
-  return function () {
-    const result = cachedFunction.apply(this, arguments);
+  return function (...args) {
+    const result = cachedFunction.apply(this, args);
     refreshAll();
     return result;
   };
@@ -62,8 +62,8 @@ ide.createTab = (function () {
 ide.openTab = (function () {
   const cachedFunction = ide.openTab;
 
-  return function () {
-    const result = cachedFunction.apply(this, arguments);
+  return function (...args) {
+    const result = cachedFunction.apply(this, args);
     refreshAll();
     for (const element of document.querySelectorAll(':root > body > #tabs > .tabcontent > .CodeMirror')) {
       element.CodeMirror.setValue(element.CodeMirror.getValue());

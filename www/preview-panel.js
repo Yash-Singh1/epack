@@ -180,7 +180,13 @@ if (typeof decodeURIComponent(new URLSearchParams(window.location.search).get('p
     // Define chrome.devtools API
     chrome.devtools = {
       panels: {
-        themeName: response.theme
+        themeName: response.theme,
+        SearchAction: {
+          CancelSearch: 'cancelSearch',
+          NextSearchResult: 'nextSearchResult',
+          PerformSearch: 'performSearch',
+          PreviousSearchResult: 'previousSearchResult'
+        }
       },
       inspectedWindow: {
         /* eslint-disable-next-line no-eval */
