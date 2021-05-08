@@ -7,9 +7,6 @@
   <a href="https://opensource.org/licenses/MIT">
     <img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?style=flat-square" />
   </a>
-  <a href="javascript:;">
-    <img alt="Under Maintenance" src="https://img.shields.io/badge/under-maintenance-yellow.svg?style=flat-square" />
-  </a>
 </p>
 
 <br />
