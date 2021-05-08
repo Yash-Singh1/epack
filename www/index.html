@@ -200,6 +200,11 @@
             <br />
             <p class="templateText">Template</p>
           </button>
+          <button class="template" id="createDevToolsScript">
+            <img id="devtoolsScriptPNG" class="templateImg" src="img/program.png" loading="lazy" />
+            <br />
+            <p class="templateText">DevTools Script</p>
+          </button>
           <button class="actions" id="close-settings">Close</button>
         </menu>
       </form>
@@ -209,6 +214,22 @@
     <dialog id="templateChooser">
       <form method="dialog">
         <menu class="menus" id="templateMenu"></menu>
+      </form>
+    </dialog>
+
+    <!-- Create DevTools Script Dialog -->
+    <dialog id="devtoolsScriptChooser">
+      <form method="dialog">
+        <input id="devtoolsscript-name" autocapitalize="off" spellcheck="false" type="text" />
+        <p id="devtoolsscript-status">That input is invalid</p>
+        <div id="devtools-scripts-setter">
+          <p id="devtools-scripts-label">Scripts:</p>
+          <input id="devtools-scripts-number" value="0" type="number" min="0" step="1" />
+        </div>
+        <menu class="menus">
+          <button id="createDevToolsScriptBtn" class="actions">Create</button>
+          <button class="actions">Cancel</button>
+        </menu>
       </form>
     </dialog>
 

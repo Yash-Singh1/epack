@@ -92,7 +92,8 @@
 /* #region Style input boxes */
 
 #name,
-#duplicateName {
+#duplicateName,
+#devtoolsscript-name {
   margin-left: 15%;
   outline: none;
 }
@@ -244,7 +245,8 @@ body.dark [id*='Checks'] > label[for*='checkbox-'] {
 }
 
 #status,
-#duplicateStatus {
+#duplicateStatus,
+#devtoolsscript-status {
   color: blue;
   margin-left: 80px;
 }
@@ -257,11 +259,13 @@ body.dark [id*='Checks'] > label[for*='checkbox-'] {
   margin-left: 20%;
 }
 
-#scripts-label {
+#scripts-label,
+#devtools-scripts-label {
   margin-left: 40%;
 }
 
-#scripts-number {
+#scripts-number,
+#devtools-scripts-number {
   margin-left: 20%;
 }
 

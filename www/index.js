@@ -96,8 +96,10 @@ function startDarkMode() {
           '#settings',
           '#info',
           '#blankPNG',
+          '#devtoolsScriptPNG',
           '#styles-label',
           '#scripts-label',
+          '#devtools-scripts-label',
           '#panelSettings',
           '#globalSettings',
           'label[for="panelData"]',
@@ -591,6 +593,8 @@ const duplicateDialog = byId('duplicateDialog');
 const duplicateButton = byId('duplicateBtn');
 const duplicateStatus = byId('duplicateStatus');
 const settingsDialog = byId('settingsDialog');
+const nameOfDevToolsScript = byId('devtoolsscript-name');
+const devToolsScriptNameStatus = byId('devtoolsscript-status');
 
 const darkMediaQuery = '(prefers-color-scheme: dark)';
 let darkModeOn = false;
@@ -600,12 +604,16 @@ const sizes = ['default', '100%'];
 // Ensure everything is at default before onmychange
 let nameOfPanelCurrentValue = '';
 nameOfPanel.value = '';
+let nameOfDevToolsScriptCurrentValue = '';
+nameOfDevToolsScript.value = '';
 let duplicateNameCurrentValue = '';
 duplicateName.value = '';
 let stylesNumberCurrent = 0;
 byId('style-number').value = 0;
 let scriptsNumberCurrent = 0;
 byId('scripts-number').value = 0;
+let devToolsScriptsNumberCurrent = 0;
+byId('devtools-scripts-number').value = 0;
 
 // Templates
 const globalTemplate = {
@@ -631,6 +639,9 @@ const sidebarTemplate = {
   matches: ['elementsPanel', 'sourcesPanel'],
   height: 'default',
   width: 'default'
+};
+const devtoolsScriptTemplate = {
+  type: 'devtools-script'
 };
 
 const globalSettingsFromStorage = localStorage.getItem('settings');
@@ -684,6 +695,11 @@ setInterval(() => {
     nameOfPanelCurrentValue = nameOfPanel.value;
   }
 
+  if (nameOfDevToolsScriptCurrentValue !== nameOfDevToolsScript.value) {
+    nameOfDevToolsScript.onmychange();
+    nameOfDevToolsScriptCurrentValue = nameOfDevToolsScript.value;
+  }
+
   if (duplicateNameCurrentValue !== duplicateName.value) {
     duplicateName.onmychange();
     duplicateNameCurrentValue = duplicateName.value;
@@ -698,11 +714,141 @@ setInterval(() => {
     byId('scripts-number').onmychange();
     scriptsNumberCurrent = byId('scripts-number').value;
   }
+
+  if (devToolsScriptsNumberCurrent !== byId('devtools-scripts-number').value) {
+    byId('devtools-scripts-number').onmychange();
+    devToolsScriptsNumberCurrent = byId('devtools-scripts-number').value;
+  }
 }, 200);
 
 // #endregion
 
-// #region Initialize Create Panel Action
+// #region Initialize Template or Blank Choosing
+
+// Listen for create icon click
+byId('create').addEventListener('click', () => {
+  showIt(byId('templateOrBlank'));
+});
+
+// #endregion
+
+// #region Initialize Template Creating
+
+// Listen for a click on the template option
+byId('createTemplate').addEventListener('click', async () => {
+  /**
+   * Gives back all the buttons for the template page
+   * @param {Array} array
+   * @returns {string} The innerHTML needed
+   */
+  function galleryOfButtons(array) {
+    innerHtmlString = '';
+    window.tempArray = array;
+    for (const [index, element] of array.entries()) {
+      innerHtmlString += `<button onclick="runTemplate(tempArray[${index}])" class="actions templateAction">${element.title}</button>`;
+    }
+
+    return innerHtmlString;
+  }
+
+  const lsed = parseJSON(await makeRequest('GET', '/www/template/'));
+  let templates = [];
+  for (const [index, element] of lsed.entries()) {
+    templates[index] = await makeRequest('GET', '/template/' + element);
+  }
+
+  templates = templates.map((template) => parseJSON(template));
+  byId('templateMenu').innerHTML = galleryOfButtons(templates);
+  showIt(byId('templateChooser'));
+});
+
+// #endregion
+
+// #region Initialize DevTools Script Creating
+
+// Get ready for creating events
+byId('createDevToolsScript').addEventListener('click', () => {
+  byId('createDevToolsScriptBtn').value = 0;
+  nameOfDevToolsScript.value = '';
+  byId('devtools-scripts-number').value = 0;
+  showIt(byId('devtoolsScriptChooser'));
+});
+
+// Startup onmychange for the DevTools Script name input
+nameOfDevToolsScript.onmychange = function () {
+  byId('devtoolsscript-status').innerHTML =
+    parseJSON(handleNull('total', true)).includes(nameOfDevToolsScript.value) !== true && nameOfDevToolsScript.value !== ''
+      ? 'That input is valid'
+      : 'That input is invalid';
+};
+
+// Startup onmychange for the DevTools Script number of scripts input
+byId('devtools-scripts-number').onmychange = function () {
+  byId('createDevToolsScriptBtn').value = byId('devtools-scripts-number').value;
+};
+
+byId('devtoolsScriptChooser').addEventListener('close', () => {
+  if (
+    parseJSON(handleNull('total', true)).includes(nameOfDevToolsScript.value) !== true &&
+    nameOfDevToolsScript.value !== '' &&
+    typeof nameOfDevToolsScript.value === 'string'
+  ) {
+    try {
+      scriptsNum = parseInt(byId('devtoolsScriptChooser').returnValue, 10);
+    } catch {
+      scriptsNum = 0;
+    }
+
+    if (typeof scriptsNum !== 'number' || isNaN(scriptsNum)) {
+      scriptsNum = 0;
+    }
+
+    if (scriptsNum === 0) {
+      return;
+    }
+
+    localStorage.setItem(
+      'ide-' + nameOfDevToolsScript.value,
+      JSON.stringify({
+        settings: devtoolsScriptTemplate,
+        tabs: []
+      })
+    );
+    const total = parseJSON(handleNull('total', true));
+    total.push(nameOfDevToolsScript.value);
+    localStorage.setItem('total', JSON.stringify(total));
+    ide.switchPanel(ide.currentPanel, 'ide-' + nameOfDevToolsScript.value);
+
+    for (let index = 1; index <= scriptsNum; index += 1) {
+      ide.createTab('SCRIPT' + index, {
+        mode: 'javascript',
+        theme: getCurrentTheme(),
+        lineNumbers: getGlobalSetting('lineNumbers'),
+        lineWrapping: getGlobalSetting('lineWrapping'),
+        value: getGlobalSetting('jsTemplate'),
+        placeholder: 'JS Script...',
+        styleActiveLine: true,
+        autoCloseBrackets: true,
+        matchBrackets: true,
+        showTrailingSpace: true,
+        continueComments: true,
+        scrollPastEnd: true,
+        ...getFoldingConfig()
+      });
+    }
+
+    // Save all the data and ensure that it is known that there is a tab on the screen
+    localStorage.setItem('ide-' + createBlankDialog.returnValue, stringifiedPack(createBlankDialog.returnValue));
+    ide.openTab(0);
+    notNullAnymore();
+  }
+});
+
+// Listen for the dialog closing
+
+// #endregion
+
+// #region Initialize Blank Panel Creating
 
 // Get ready for creating events
 byId('createBlank').addEventListener('click', () => {
@@ -763,7 +909,7 @@ createBlankDialog.addEventListener('close', () => {
       styleNum = 0;
     }
 
-    if (typeof styleNum !== 'number') {
+    if (typeof styleNum !== 'number' || isNaN(styleNum)) {
       styleNum = 0;
     }
 
@@ -773,7 +919,7 @@ createBlankDialog.addEventListener('close', () => {
       scriptsNum = 0;
     }
 
-    if (typeof scriptsNum !== 'number') {
+    if (typeof scriptsNum !== 'number' || isNaN(scriptsNum)) {
       scriptsNum = 0;
     }
 
@@ -1058,7 +1204,7 @@ deleteDialog.addEventListener('close', () => {
         localStorage.removeItem(`preview-${element[0]}`);
       }
 
-      removeFromTotal(element);
+      removeFromTotal(element[0]);
     }
 
     if (handleNull('total', true) === '[]') {
@@ -1111,53 +1257,12 @@ duplicateDialog.addEventListener('close', () => {
 
 // #endregion
 
-// #region Initialize Template or Blank Choosing
-
-// Listen for create icon click
-byId('create').addEventListener('click', () => {
-  showIt(byId('templateOrBlank'));
-});
-
-// #endregion
-
-// #region Initialize Template Creating
-
-// Listen for a click on the template option
-byId('createTemplate').addEventListener('click', async () => {
-  /**
-   * Gives back all the buttons for the template page
-   * @param {Array} array
-   * @returns {string} The innerHTML needed
-   */
-  function galleryOfButtons(array) {
-    innerHtmlString = '';
-    window.tempArray = array;
-    for (const [index, element] of array.entries()) {
-      innerHtmlString += `<button onclick="runTemplate(tempArray[${index}])" class="actions templateAction">${element.title}</button>`;
-    }
-
-    return innerHtmlString;
-  }
-
-  const lsed = parseJSON(await makeRequest('GET', '/www/template/'));
-  let templates = [];
-  for (const [index, element] of lsed.entries()) {
-    templates[index] = await makeRequest('GET', '/template/' + element);
-  }
-
-  templates = templates.map((template) => parseJSON(template));
-  byId('templateMenu').innerHTML = galleryOfButtons(templates);
-  showIt(byId('templateChooser'));
-});
-
-// #endregion
-
 // #region Initialize Settings Option
 
 // Listen for clicks on the settings icon
 byId('settings').addEventListener('click', () => {
   settingsDialog.returnValue = '';
-  if (ide.currentPanel === null) {
+  if (ide.currentPanel === null || getLocalSetting(ide.currentPanel, 'type') === 'devtools-script') {
     disable(byId('panelSettings'));
   } else {
     if (typeof constructPanelSettings !== 'function') {
@@ -1201,13 +1306,13 @@ byId('settings').addEventListener('click', () => {
 
     enable(byId('panelSettings'));
     byId('panelSettingsContainer').innerHTML = constructPanelSettings();
-    const innerResizeBox = document.getElementById('resize');
+    const innerResizeBox = byId('resize');
     if (innerResizeBox !== null) {
       new ResizeSensor(innerResizeBox, () => {
         if (getLocalSetting(ide.currentPanel, 'height') === 0 && getLocalSetting(ide.currentPanel, 'width') === 100) {
           return;
         }
-        document.getElementById('resize-info').innerHTML =
+        byId('resize-info').innerHTML =
           (innerResizeBox.offsetWidth === 100 ? 'default' : innerResizeBox.offsetWidth + '%') +
           ' x ' +
           (innerResizeBox.offsetHeight === 100 ? 'default' : innerResizeBox.offsetHeight + '%');

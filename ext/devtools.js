@@ -109,6 +109,17 @@ function initDevTools(panels) {
           );
         });
       });
+    } else if (panel.settings.type === 'devtools-script') {
+      const iframeContainer = document.getElementById('devtools-script-iframes');
+      iframeContainer.innerHTML += `<iframe id="sandbox-${iframeContainer.childNodes.length}" src="sandbox.html"></iframe>`;
+      iframeContainer.querySelector('#sandbox-' + (iframeContainer.childNodes.length - 1)).addEventListener('load', () =>
+        iframeContainer.querySelector('#sandbox-' + (iframeContainer.childNodes.length - 1)).contentWindow.postMessage(
+          {
+            body: panel
+          },
+          '*'
+        )
+      );
     } else if (panel.settings.matches.includes('elementsPanel') || panel.settings.matches.includes('sourcesPanel')) {
       for (const match of panel.settings.matches) {
         console.log(match);

@@ -18,6 +18,8 @@
 - Advanced
 
   - [Events](advanced/events.md)
+  - [Sidebars](advanced/sidebars.md)
+  - [DevTools Script](advanced/devtools-script.md)
   - [Architecture](ARCHITECTURE.md)
 
 - [License](LICENSE.md)
