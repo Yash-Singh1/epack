@@ -2,8 +2,15 @@
 
 process.title = 'epack-site';
 const fs = require('fs');
+const RateLimit = require('express-rate-limit');
 const express = require('express');
 const app = express();
+app.use(
+  new RateLimit({
+    windowMs: 1000,
+    max: 1
+  })
+);
 
 const port = process.env.PORT || 1534;
 const rootDocs = new Set(['README.md', 'ROADMAP.md', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'LICENSE.md', 'ARCHITECTURE.md']);
@@ -13,17 +20,7 @@ app.set('subdomain offset', 1);
 app.get('/*', (request, response) => {
   // A directory is trying to be read
   if (request.path.endsWith('/') && request.path !== '/') {
-    try {
-      return fs.readdir(`.${request.path}`, (error, items) => {
-        if (error) {
-          throw error;
-        }
-
-        response.send(items);
-      });
-    } catch {
-      response.sendStatus(404);
-    }
+    return res.send(fs.readdirSync(`.${request.path}`));
   }
 
   /**

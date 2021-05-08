@@ -22,7 +22,11 @@ window.onmessage = (event) => {
     for (const styleElement of panel.styles) {
       if (typeof styleElement === 'string') {
         const nextStyle = document.createElement('style');
-        nextStyle.innerHTML = styleElement;
+        if (css.styleSheet) {
+          nextStyle.styleSheet.cssText = styleElement;
+        } else {
+          nextStyle.append(document.createTextNode(styleElement));
+        }
         document.head.append(nextStyle);
       }
     }

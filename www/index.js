@@ -59,7 +59,7 @@ ide.switchPanel = function (current, newer) {
   ide.removeAll();
   ide.large(parseJSON(parseJSON(handleNull(newer)).tabs));
   ide.currentPanel = newer;
-  byId('current-panel').innerHTML = newer.slice(4);
+  byId('current-panel').innerHTML = escapeXML(newer.slice(4));
   notNullAnymore();
 };
 
@@ -327,11 +327,11 @@ function switchInfoMessage(panel) {
 
   byId('info-dialog').innerHTML = `Information:
 <br />
-&emsp;Main storage bytes: ${mainBytes}
+&emsp;Main storage bytes: ${escapeXML(mainBytes)}
 <br />
-&emsp;Preview storage bytes: ${bytes}
+&emsp;Preview storage bytes: ${escapeXML(bytes)}
 <br />
-&emsp;Panel name: ${panel.slice(4)}
+&emsp;Panel name: ${escapeXML(panel.slice(4))}
 <br />
 &emsp;Styles: ${tabs.filter((value) => value.name.includes('STYLE')).length}
 <br />
@@ -570,6 +570,15 @@ function makeRequest(method, url, data) {
   });
 }
 
+/**
+ * Escape XML
+ * @param {string} xml The unescaped XML
+ * @returns {string} The escaped XML
+ */
+function escapeXML(xml) {
+  return xml.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&apos;');
+}
+
 // #endregion
 
 // #region Initialize Variables
@@ -668,7 +677,7 @@ if (localStorage.getItem('current') === null) {
   nullAgain();
 } else {
   ide.currentPanel = localStorage.getItem('current');
-  byId('current-panel').innerHTML = ide.currentPanel.slice(4);
+  byId('current-panel').innerHTML = escapeXML(ide.currentPanel.slice(4));
 }
 
 if (typeof parseJSON(localStorage.getItem(ide.currentPanel)) === 'object' && parseJSON(localStorage.getItem(ide.currentPanel)) !== null) {
