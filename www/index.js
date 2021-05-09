@@ -766,7 +766,7 @@ byId('createTemplate').addEventListener('click', async () => {
   const lsed = parseJSON(await makeRequest('GET', '/www/template/'));
   let templates = [];
   for (const [index, element] of lsed.entries()) {
-    templates[index] = await makeRequest('GET', '/template/' + element);
+    templates[index] = await makeRequest('GET', '/playground/template/' + element);
   }
 
   templates = templates.map((template) => parseJSON(template));
