@@ -8,9 +8,9 @@
     "page": "background.html",
     "persistent": false
   },
-  "permissions": ["storage", "tabs"],
+  "permissions": ["storage"],
   "version": "1.0.0",
-  "description": "A simple to use GUI interface that provides an easier way to make extensions",
+  "description": "A simple to use GUI interface that provides an easier way to make Chrome DevTools Extensions",
   "manifest_version": 2,
   "minimum_chrome_version": "17.0",
   "devtools_page": "devtools.html",
