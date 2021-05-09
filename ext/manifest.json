@@ -1,7 +1,7 @@
 {
   "name": "epack",
   "externally_connectable": {
-    "matches": ["*://localhost:1534/*", "*://epack.herokuapp.com/*", "*://epack.js.org/*"],
+    "matches": ["*://localhost:*/*", "*://epack.herokuapp.com/*", "*://epack.js.org/*"],
     "ids": ["*"]
   },
   "background": {
