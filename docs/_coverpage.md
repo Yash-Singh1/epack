@@ -8,6 +8,7 @@
 
 [GitHub](https://github.com/Yash-Singh1/epack/)
 [Get Started](?id=main)
+<a href="/playground/">Playground</a>
 
 <!-- background color -->
 

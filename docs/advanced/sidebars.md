@@ -15,6 +15,6 @@ Expression sidebars allow you to give an expression, such as `"n"` and
 that expression will be continuously evaluated and update the sidebar.
 JSON sidebars let you give plain JSON, and allow that to be rendered.
 The two of them are not supported in the UI, but can be made using
-[DevTools Scripts](devtools-script.md). HTML sidebars, however
+[DevTools Scripts](../advanced/devtools-script.md). HTML sidebars, however
 are supported in the UI and is exactly what comes up when you deploy
 a sidebar converted from a panel.

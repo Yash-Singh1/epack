@@ -56,7 +56,7 @@ Locally, you can also run the extension and the web app in development mode. Her
 
 ## Development
 
-For the directory structure, look [here](docs/setup.md#directory-structure). Here is a [quick explanation](docs/advanced/architecture.md) of the extension.
+For the directory structure, look [here](docs/setup.md#directory-structure). Here is a [quick explanation](/ARCHITECTURE.md) of the extension.
 
 Here are some `npm` scripts that are useful:
 

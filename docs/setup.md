@@ -4,7 +4,7 @@ This documentation will go over setting up `epack`.
 
 ## Using Site
 
-- The site is at [`https://epack.js.org/`](https://epack.js.org/)
+- The site is at [`https://epack.js.org/playground/`](https://epack.js.org/playground/)
 - Open up `chrome://extensions`
 - Enable developer mode in the top right
 - Now click on "Load unpacked" in the top left. Select the `ext/` directory on the root of this repository
@@ -14,7 +14,7 @@ This documentation will go over setting up `epack`.
 ## Running Locally
 
 - Run `npm run start` at the root of the repository
-- Now the site will be running on [`http://localhost:1534/`](http://localhost:1534/)
+- Now the site will be running on [`http://localhost:1534/playground/`](http://localhost:1534/playground/)
 - Open up `chrome://extensions`
 - Enable developer mode in the top right
 - Now click on "Load unpacked" in the top left. Select the `ext/` directory on the root of this repository
@@ -25,8 +25,14 @@ Now the setup is complete and the site and extension should be up and running!
 
 ## Viewing Docs
 
+### Hosted
+
+Go to [`https://epack.js.org/`](https://epack.js.org/).
+
+### Locally
+
 - Run `npm run start` at the root of the repository
-- The docs will be at [`http://docs.localhost:1534/`](http://docs.localhost:1534/)
+- The docs will be at [`http://localhost:1534/`](http://localhost:1534/)
 
 The docs run based on [`docsify`](https://docsify.js.org/#/).
 
@@ -67,6 +73,7 @@ The site provides a UI for the user to code in the IDE and creates panels.
 When the user deploys their panels, all of the data is sent to the extension.
 The extension then takes this request’s data and places it into the `storage.sync`.
 Whenever a new instance of Chrome DevTools is created, the panels are rendered inside there.
+To see the full architecture, see the [`ARCHITECTURE.md`](/ARCHITECTURE.md) at the root of this repository.
 
 ## Contributing
 

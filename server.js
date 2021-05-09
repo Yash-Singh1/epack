@@ -8,23 +8,10 @@ const app = express();
 const port = process.env.PORT || 1534;
 const rootDocs = new Set(['README.md', 'ROADMAP.md', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'LICENSE.md', 'ARCHITECTURE.md']);
 
-app.set('subdomain offset', 1);
-
 app.get('/*', (request, response) => {
   // A directory is trying to be read
-  if (request.path.endsWith('/') && request.path !== '/') {
+  if (request.path.endsWith('/') && request.path !== '/playground/' && request.path !== '/') {
     return response.send(fs.readdirSync(`.${request.path}`));
-  }
-
-  /**
-   * Check for side cases where:
-   *  - doc subdomain is used instead of docs subdomain
-   *  - /index.html is used instead of root /
-   *  - MonkeyIDE license is requested (redirect to monkeyide repo)
-   *  - favicon is requested
-   */
-  if (request.subdomains[0] === 'doc') {
-    return response.redirect(request.protocol + '://' + request.get('host').replace('doc', 'docs') + request.originalUrl);
   }
 
   if (request.path === '/index.html') {
@@ -41,17 +28,20 @@ app.get('/*', (request, response) => {
 
   // Figure out which file to send, sometimes it is different then requested
   let file = request.path.slice(1);
-  if (request.path === '/') {
+  if (request.path === '/playground/' || request.path === '/') {
     file = 'index.html';
+  } else if (request.path.startsWith('/playground/')) {
+    file = request.path.slice(12);
   } else if (request.path === '/LICENSE.md') {
     file = 'LICENSE';
   }
 
   // Determine the root from which to send the file
-  let root = './www/';
   if (request.path.startsWith('/node_modules/')) {
     root = './';
-  } else if (request.subdomains[0] === 'docs') {
+  } else if (request.path.startsWith('/playground/')) {
+    root = './www/';
+  } else {
     root = rootDocs.has(request.path.slice(1)) || request.path.startsWith('/img/') ? './' : './docs/';
   }
 

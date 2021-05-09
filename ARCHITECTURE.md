@@ -42,3 +42,7 @@ This means that the panel is not just your HTML page, scripts, and styles, but i
 Here is a diagram:
 
 ![Box inside Box](img/panel.svg)
+
+## DevTools Scripts
+
+Whenever the DevTools page starts up as said [here](#devtools-page), the [Devtools Scripts](docs/advanced/devtools-script.md) provided also run.
