@@ -23,7 +23,7 @@ app.get('/*', (request, response) => {
    *  - MonkeyIDE license is requested (redirect to monkeyide repo)
    *  - favicon is requested
    */
-  if (request.subdomains[0] === 'doc' && request.subdomains.length === 1) {
+  if (request.subdomains[0] === 'doc') {
     return response.redirect(request.protocol + '://' + request.get('host').replace('doc', 'docs') + request.originalUrl);
   }
 
@@ -51,7 +51,7 @@ app.get('/*', (request, response) => {
   let root = './www/';
   if (request.path.startsWith('/node_modules/')) {
     root = './';
-  } else if (request.subdomains[0] === 'docs' && request.subdomains.length === 1) {
+  } else if (request.subdomains[0] === 'docs') {
     root = rootDocs.has(request.path.slice(1)) || request.path.startsWith('/img/') ? './' : './docs/';
   }
 
