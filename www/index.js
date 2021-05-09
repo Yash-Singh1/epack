@@ -463,7 +463,6 @@ function showIt(modal) {
   if (typeof modal.showModal === 'function') {
     return modal.showModal();
   }
-  /* eslint-disable-next-line no-alert */
   alert('The <dialog> API is not supported by this browser');
 }
 
@@ -662,6 +661,10 @@ if (globalSettingsFromStorage === null) {
   } catch {
     localStorage.setItem('settings', JSON.stringify(globalTemplate));
   }
+}
+
+if (localStorage.getItem('extensionid') === null) {
+  localStorage.setItem('extensionid', prompt('What is the extension ID?'));
 }
 
 chrome.runtime.sendMessage(localStorage.getItem('extensionid'), {method: 'INFO'}, null, (response) => {

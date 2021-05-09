@@ -1,5 +1,16 @@
 # Setting Up
 
+This documentation will go over setting up `epack`.
+
+## Using Site
+
+- The site is at [`https://epack.js.org/`](https://epack.js.org/)
+- Open up `chrome://extensions`
+- Enable developer mode in the top right
+- Now click on "Load unpacked" in the top left. Select the `ext/` directory on the root of this repository
+- Copy the ID of the resulting extension
+- Go back to the site and paste the extension ID you copied in the prompt
+
 ## Running Locally
 
 - Run `npm run start` at the root of the repository
@@ -8,7 +19,7 @@
 - Enable developer mode in the top right
 - Now click on "Load unpacked" in the top left. Select the `ext/` directory on the root of this repository
 - Copy the ID of the resulting extension
-- Go back to the site and run `localStorage.setItem("extensionid", "EXTENSION_ID")`. Replace `EXTENSION_ID` with the ID that you copied
+- Go back to the site and paste the extension ID you copied in the prompt
 
 Now the setup is complete and the site and extension should be up and running!
 

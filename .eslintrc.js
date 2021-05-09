@@ -95,7 +95,6 @@ module.exports = {
     'multiline-ternary': ['error', 'always-multiline'],
     'new-cap': 'error',
     'new-parens': 'error',
-    'no-alert': 'error',
     'no-array-constructor': 'error',
     'no-bitwise': 'error',
     'no-buffer-constructor': 'error',
