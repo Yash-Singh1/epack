@@ -13,7 +13,7 @@ app.set('subdomain offset', 1);
 app.get('/*', (request, response) => {
   // A directory is trying to be read
   if (request.path.endsWith('/') && request.path !== '/') {
-    return res.send(fs.readdirSync(`.${request.path}`));
+    return response.send(fs.readdirSync(`.${request.path}`));
   }
 
   /**
