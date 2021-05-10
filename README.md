@@ -7,6 +7,9 @@
   <a href="https://opensource.org/licenses/MIT">
     <img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?style=flat-square" />
   </a>
+  <a href="https://chrome.google.com/webstore/detail/epack/blfiiekgkgfddabacmlpkckiokiagdbm">
+    <img alt="Chrome Web Store Users" src="https://img.shields.io/chrome-web-store/users/blfiiekgkgfddabacmlpkckiokiagdbm?style=flat-square">
+  </a>
 </p>
 
 <br />
