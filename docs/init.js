@@ -44,6 +44,7 @@ window.$docsify = {
   themeColor: '#3F51B5',
   alias: {
     '/docs/(.*)': '/$1',
+    '/\\.\\./(.*?/.*)': '/$1',
     '/MONKEYIDE_README': 'https://raw.githubusercontent.com/Yash-Singh1/monkeyide/master/README.md'
   }
 };
