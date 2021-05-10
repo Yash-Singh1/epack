@@ -2,10 +2,14 @@
 
 This documentation will go over setting up `epack`.
 
+## Installing extension
+
+Install the chrome extension from: <https://chrome.google.com/webstore/detail/epack/blfiiekgkgfddabacmlpkckiokiagdbm>
+
 ## Using Site
 
 - The site is at [`https://epack.js.org/playground/`](https://epack.js.org/playground/)
-- Open up `chrome://extensions`
+- Open up `chrome://extensions` (Skip to copying the ID if you installed the extension)
 - Enable developer mode in the top right
 - Now click on "Load unpacked" in the top left. Select the `ext/` directory on the root of this repository
 - Copy the ID of the resulting extension
@@ -15,7 +19,7 @@ This documentation will go over setting up `epack`.
 
 - Run `npm run start` at the root of the repository
 - Now the site will be running on [`http://localhost:1534/playground/`](http://localhost:1534/playground/)
-- Open up `chrome://extensions`
+- Open up `chrome://extensions` (Skip to copying the ID if you installed the extension)
 - Enable developer mode in the top right
 - Now click on "Load unpacked" in the top left. Select the `ext/` directory on the root of this repository
 - Copy the ID of the resulting extension
