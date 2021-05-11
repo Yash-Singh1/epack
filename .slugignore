@@ -1,0 +1,11 @@
+.github/
+ext/
+.eslintignore
+.eslintrc.js
+.markdownlint.json
+.markdownlintignore
+.prettierignore
+.prettierrc.json
+.stylelintignore
+.stylelintrc.json
+package.sh
