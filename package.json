@@ -1,6 +1,6 @@
 {
   "name": "epack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple to use GUI interface to create extensions",
   "main": "server.js",
   "scripts": {
