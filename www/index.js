@@ -504,7 +504,7 @@ function notNullAnymore() {
   enable(byId('info'), true);
   disable(byId('msgStart'));
   byId('settings').style.right = '';
-  byId('preview-panel').href = '/preview-panel.html?panel=' + ide.currentPanel.slice(4);
+  byId('preview-panel').href = '/playground/preview-panel.html?panel=' + ide.currentPanel.slice(4);
 }
 
 /**
