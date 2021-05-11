@@ -6,6 +6,7 @@
   "scripts": {
     "start": "bash start.sh",
     "build": "bash package.sh",
+    "heroku-postbuild": "",
     "dev": "bash package.sh --no-zip",
     "code-style": "markdownlint ./ --fix && stylelint ./www/style/*.css ./ext/*.css --fix --cache && eslint ./ --cache --fix && prettier --check ./ > /dev/null || prettier --write .",
     "lint": "markdownlint ./ && stylelint ./www/style/*.css ./ext/*.css --cache && eslint ./ --cache && prettier --check ."
