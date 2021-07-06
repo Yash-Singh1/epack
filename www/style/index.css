@@ -398,6 +398,7 @@ label[for='includehtml'] {
   z-index: 10;
   top: 3%;
   display: none;
+  padding: 10px;
 }
 
 body:not(.dark) #info-dialog {
