@@ -253,7 +253,7 @@ function setAllConfig(configName, valueToSet, filterCallback) {
   }
   let topSelected = [...document.querySelectorAll('body > #tabs > .tabcontent > .CodeMirror')];
   if (document.querySelector('iframe') !== null) {
-    for (let frame of [...document.querySelectorAll('iframe')]) {
+    for (let frame of document.querySelectorAll('iframe')) {
       if (!frame || !frame.contentDocument) {
         continue;
       }
@@ -305,12 +305,8 @@ function getBytes(array, preview) {
     array = Object.keys(nowStorage);
   }
 
-  nowStorage = Object.keys(nowStorage)
-    .filter((key) => array.includes(key))
-    .reduce((object, key) => {
-      object[key] = nowStorage[key];
-      return object;
-    }, {});
+  nowStorage = Object.fromEntries(Object.entries(nowStorage).filter((entry) => array.includes(entry[0])));
+
   return new TextEncoder().encode(`"${prefix}${panelName}":${JSON.stringify(nowStorage)},`).length;
 }
 

@@ -103,12 +103,8 @@ if (typeof decodeURIComponent(new URLSearchParams(window.location.search).get('p
         localStorage.setItem('preview-' + panelName, '{}');
       }
 
-      nowStorage = Object.keys(nowStorage)
-        .filter((key) => array.includes(key))
-        .reduce((object, key) => {
-          object[key] = nowStorage[key];
-          return object;
-        }, {});
+      nowStorage = Object.fromEntries(Object.entries(nowStorage).filter((entry) => array.includes(entry[0])));
+
       return new TextEncoder().encode(`"preview-${panelName}":${JSON.stringify(nowStorage)},`).length;
     }
 
@@ -131,14 +127,7 @@ if (typeof decodeURIComponent(new URLSearchParams(window.location.search).get('p
           keys = Object.keys(readPreviewStorage());
         }
 
-        callback(
-          Object.keys(readPreviewStorage())
-            .filter((key) => keys.includes(key))
-            .reduce((object, key) => {
-              object[key] = readPreviewStorage()[key];
-              return object;
-            }, {})
-        );
+        callback(Object.fromEntries(Object.entries(readPreviewStorage()).filter((entry) => keys.includes(entry[0]))));
       },
       set(items, callback = emptyFunction) {
         for (const key of Object.keys(items)) {
