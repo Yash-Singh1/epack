@@ -28,7 +28,7 @@
 
 ## Getting Started
 
-For more thorough documentation on getting started, go to the [starting up the documentation instructions](docs/setup.md#viewing-docs)
+For more thorough documentation on getting started, go to the [starting up the documentation instructions](docs/setup.md#viewing-docs).
 
 ## Contributing
 
