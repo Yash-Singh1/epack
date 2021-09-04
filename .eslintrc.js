@@ -11,17 +11,12 @@ module.exports = {
   plugins: ['prettier', 'unicorn'],
   overrides: [
     {
-      files: ['./**/*.js'],
-      excludedFiles: ['server.js'],
-      env: {node: false}
-    },
-    {
       files: 'server.js',
       env: {browser: false, node: true}
     },
     {
       files: './ext/**.js',
-      env: {webextensions: true, node: false}
+      env: {webextensions: true}
     }
   ],
   globals: {
