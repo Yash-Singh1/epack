@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 /**
  * Returns the <p> tag for the welcome tag.
  * @param {boolean} bool console.logs the element

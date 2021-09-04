@@ -7,12 +7,14 @@ function getGlobalSetting(setting) {
   return parseJSON(localStorage.getItem('settings')) ? parseJSON(localStorage.getItem('settings'))[setting] : globalTemplate[setting];
 }
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Sets the global setting
  * @param {string} query The key to set
  * @param {string} value The value to set the key to
  */
-function setGlobalSetting(query, value) {
+function setGlobalSetting /* eslint-enable no-unused-vars */(query, value) {
   let settingsJSON = parseJSON(localStorage.getItem('settings'));
   if (settingsJSON === null) {
     localStorage.setItem('settings', JSON.stringify(globalTemplate));
@@ -32,10 +34,13 @@ function parseJSON(content) {
   return typeof content === 'string' && content !== '' ? JSON.parse(content) : content;
 }
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Get the folding configuration that should be used right now
  */
 function getFoldingConfig() {
+  /* eslint-enable no-unused-vars */
   return getGlobalSetting('fold') ? {foldGutter: true, gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter']} : {};
 }
 
@@ -72,9 +77,12 @@ ide.openTab = (function () {
   };
 })();
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Gets the current theme that should be used
  */
 function getCurrentTheme() {
+  /* eslint-enable no-unused-vars */
   return getGlobalSetting('theme') === 'dark' ? 'cobalt' : 'base16-light';
 }

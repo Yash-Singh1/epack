@@ -13,13 +13,13 @@ window.$docsify = {
   plugins: [
     function (hook, vm) {
       hook.beforeEach((html) => {
+        const editHtml = `<p align="right">:memo: <a href="${url}">Edit this Page</a></p>\n\n`;
         const url =
           'https://github.com/Yash-Singh1/' +
           (vm.route.file.startsWith('MONKEYIDE') ? 'monkeyide' : 'epack') +
           '/blob/main/' +
           (/(README|CONTRIBUTING|LICENSE|ROADMAP|CODE_OF_CONDUCT|ARCHITECTURE)/.test(vm.route.file) ? '' : 'docs/') +
           (vm.route.file.startsWith('MONKEYIDE') ? vm.route.file.slice(10) : vm.route.file);
-        const editHtml = `<p align="right">:memo: <a href="${url}">Edit this Page</a></p>\n\n`;
         if (html.includes('404')) {
           return html;
         }

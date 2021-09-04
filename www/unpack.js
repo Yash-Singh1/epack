@@ -1,6 +1,6 @@
 /**
  * Unpacks the given panel into one that can be sent to the extension
- * @param {Object} panel The panel object that is used
+ * @param {Object|string} panel The panel object that is used
  * @param {string} panelName The name of the panel
  */
 function unpack(panel, panelName) {
@@ -10,7 +10,7 @@ function unpack(panel, panelName) {
    * @returns {*} The parsed content
    */
   function parseJSON(content) {
-    return typeof content === 'string' && content !== '' ? JSON.parse(content) : content;
+    return typeof content === 'string' ? JSON.parse(content) : content;
   }
 
   /**
@@ -25,9 +25,10 @@ function unpack(panel, panelName) {
   panel = parseJSON(panel);
   const returned = {};
   returned.settings = panel.settings;
-  const lst = parseJSON(panel.tabs);
+  const lst = parseJSON(panel.tabs) || [];
   returned.content = getByNameLst(lst, 'HTML') ? getByNameLst(lst, 'HTML').configuration.value : undefined;
   returned.title = panelName;
+
   let currentNumber = 1;
   while (true) {
     if (getByNameLst(lst, 'STYLE' + currentNumber)) {
@@ -56,18 +57,18 @@ function unpack(panel, panelName) {
     returned.scripts = [];
   }
 
-  for (index = 1; index <= currentNumber; index += 1) {
+  for (let index = 1; index <= currentNumber; index += 1) {
     returned.styles.push(getByNameLst(lst, 'STYLE' + index).configuration.value);
   }
 
-  for (index = 1; index <= anotherNumber; index += 1) {
+  for (let index = 1; index <= anotherNumber; index += 1) {
     returned.scripts.push(getByNameLst(lst, 'SCRIPT' + index).configuration.value);
   }
 
   return returned;
 }
 
-// Export for tests... Implementing later
+// istanbul ignore else
 if (typeof module !== 'undefined') {
   module.exports = unpack;
 }

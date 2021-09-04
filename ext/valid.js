@@ -17,13 +17,11 @@ function validPanelLst(panelsGiven) {
       (Array.isArray(panel.styles) || typeof panel.styles === 'undefined') &&
       (Array.isArray(panel.scripts) || typeof panel.scripts === 'undefined') &&
       typeof panel.settings === 'object' &&
-      panel.settings !== null &&
-      ((panel.settings.inject === true && (Array.isArray(panel.settings.matches) || typeof panel.settings.matches === 'string')) ||
-        panel.settings.inject !== true)
+      panel.settings !== null
   );
 }
 
-// Export for tests... Implementing later
+// istanbul ignore else
 if (typeof module !== 'undefined') {
   module.exports = validPanelLst;
 }
