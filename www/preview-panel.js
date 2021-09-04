@@ -1,12 +1,3 @@
-// Declare StorageChange class: Defines the changes in the chrome.storage API’s StorageArea
-class StorageChange {
-  constructor(object) {
-    for (const key of Object.keys(object)) {
-      this[key] = object[key];
-    }
-  }
-}
-
 // Declare StorageArea class: Includes chrome.storage.sync and chrome.storage.local
 // Note: This repo adds another key to the StorageArea class: type, defining the type of the StorageArea
 class StorageArea {

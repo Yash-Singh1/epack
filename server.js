@@ -37,12 +37,11 @@ app.get('/*', (request, response) => {
   }
 
   // Determine the root from which to send the file
+  let root = rootDocs.has(request.path.slice(1)) || request.path.startsWith('/img/') ? './' : './docs/';
   if (request.path.startsWith('/node_modules/')) {
     root = './';
   } else if (request.path.startsWith('/playground/')) {
     root = './www/';
-  } else {
-    root = rootDocs.has(request.path.slice(1)) || request.path.startsWith('/img/') ? './' : './docs/';
   }
 
   // Prevent loads of 404 logs

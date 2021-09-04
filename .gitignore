@@ -13,3 +13,6 @@ dist.zip
 # Cache
 .eslintcache
 .stylelintcache
+
+# Code coverage
+coverage/

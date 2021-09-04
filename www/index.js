@@ -1,10 +1,14 @@
+/* global parseJSON, getGlobalSetting, getFoldingConfig, getCurrentTheme, setGlobalSetting, refreshAll, humanFormat, ResizeSensor, constructPanelSettings, constructGlobalSettings, constructSelect */
+
 // #region Panel Manipulation Functions
+
+/* eslint-disable no-unused-vars */
 
 /**
  * Creates a template
  * @param {Object} target The template that was brought from the server
  */
-function runTemplate(target) {
+function runTemplate /* eslint-enable no-unused-vars */(target) {
   if (!parseJSON(handleNull('total', true)).includes(target.title)) {
     localStorage.setItem(
       'ide-' + target.title,
@@ -155,7 +159,7 @@ function setAllThemes(theme) {
   }
 
   setAllConfig('theme', theme);
-  for (item of ide.tabsElements.children) {
+  for (let item of ide.tabsElements.children) {
     if ([...item.classList].find((value) => value.startsWith('cm-s-'))) {
       item.classList.replace(
         [...item.classList].find((value) => value.startsWith('cm-s-')),
@@ -165,11 +169,13 @@ function setAllThemes(theme) {
   }
 }
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Decide based on the set theme
  * @param {string} theme The theme to decide based on
  */
-function decideTheme(theme) {
+function decideTheme /* eslint-enable no-unused-vars */(theme) {
   setGlobalSetting('theme', theme);
   switch (theme) {
     case 'dark':
@@ -274,11 +280,13 @@ function setAllConfig(configName, valueToSet, filterCallback) {
   }
 }
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Set all folding configuration
  * @param {boolean} enable Enable or disable it
  */
-function setFoldingConfig(enable) {
+function setFoldingConfig /* eslint-enable no-unused-vars */(enable) {
   setAllConfig('foldGutter', enable);
   setGlobalSetting('fold', enable);
   setAllConfig('gutters', enable ? ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'] : undefined);
@@ -295,10 +303,10 @@ function setFoldingConfig(enable) {
  */
 function getBytes(array, preview) {
   const prefix = preview ? 'preview-' : 'ide-';
-  let nowStorage = parseJSON(localStorage.getItem(prefix + panelName));
+  let nowStorage = parseJSON(localStorage.getItem(prefix + window.panelName));
   if (nowStorage === null || typeof nowStorage !== 'object') {
     nowStorage = {};
-    localStorage.setItem(prefix + panelName, '{}');
+    localStorage.setItem(prefix + window.panelName, '{}');
   }
 
   if (!array) {
@@ -307,7 +315,7 @@ function getBytes(array, preview) {
 
   nowStorage = Object.fromEntries(Object.entries(nowStorage).filter((entry) => array.includes(entry[0])));
 
-  return new TextEncoder().encode(`"${prefix}${panelName}":${JSON.stringify(nowStorage)},`).length;
+  return new TextEncoder().encode(`"${prefix}${window.panelName}":${JSON.stringify(nowStorage)},`).length;
 }
 
 /**
@@ -315,7 +323,7 @@ function getBytes(array, preview) {
  * @param {string} panel The panel name to describe
  */
 function switchInfoMessage(panel) {
-  panelName = panel.slice(4);
+  window.panelName = panel.slice(4);
 
   const bytes = humanFormat.bytes(getBytes(undefined, true));
   const mainBytes = humanFormat.bytes(getBytes(undefined, false));
@@ -381,7 +389,7 @@ function byId(id) {
  */
 function constructBoxes(allChecked) {
   let returnString = '';
-  checkedAtrribute = '';
+  let checkedAtrribute = '';
   if (allChecked === true) {
     checkedAtrribute = ' checked';
   }
@@ -406,11 +414,13 @@ function constructBoxes(allChecked) {
   return returnString;
 }
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Runs on the Settings > Global Settings > Danger Zone > Clear
  */
-function areYouSureClear() {
-  areyousure = (sure) => {
+function areYouSureClear /* eslint-enable no-unused-vars */() {
+  window.areyousure = (sure) => {
     if (sure) {
       const remID = localStorage.getItem('extensionid');
       localStorage.clear();
@@ -421,11 +431,13 @@ function areYouSureClear() {
   showIt(byId('sureOrNot'));
 }
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Runs on Settings > Panel Settings > Danger Zone > Convert to Sidebar
  */
-function areYouSureConvertToSidebar() {
-  areyousure = (sure) => {
+function areYouSureConvertToSidebar /* eslint-enable no-unused-vars */() {
+  window.areyousure = (sure) => {
     if (sure) {
       setLocalSetting(ide.currentPanel, 'type', 'sidebar');
       setLocalSetting(ide.currentPanel, 'matches', ['elementsPanel', 'sourcesPanel']);
@@ -436,11 +448,13 @@ function areYouSureConvertToSidebar() {
   showIt(byId('sureOrNot'));
 }
 
+/* eslint-disable no-unused-vars */
+
 /**
  * Runs on Settings > Panel Settings > Danger Zone > Convert to Panel
  */
-function areYouSureConvertToPanel() {
-  areyousure = (sure) => {
+function areYouSureConvertToPanel /* eslint-enable no-unused-vars */() {
+  window.areyousure = (sure) => {
     if (sure) {
       setLocalSetting(ide.currentPanel, 'type', 'panel');
       setLocalSetting(ide.currentPanel, 'matches');
@@ -638,12 +652,6 @@ const globalTemplate = {
 const localTemplate = {
   type: 'panel'
 };
-const sidebarTemplate = {
-  type: 'sidebar',
-  matches: ['elementsPanel', 'sourcesPanel'],
-  height: 'default',
-  width: 'default'
-};
 const devtoolsScriptTemplate = {
   type: 'devtools-script'
 };
@@ -750,7 +758,7 @@ byId('createTemplate').addEventListener('click', async () => {
    * @returns {string} The innerHTML needed
    */
   function galleryOfButtons(array) {
-    innerHtmlString = '';
+    let innerHtmlString = '';
     window.tempArray = array;
     for (const [index, element] of array.entries()) {
       innerHtmlString += `<button onclick="runTemplate(tempArray[${index}])" class="actions templateAction">${element.title}</button>`;
@@ -784,7 +792,7 @@ byId('createDevToolsScript').addEventListener('click', () => {
 
 // Startup onmychange for the DevTools Script name input
 nameOfDevToolsScript.onmychange = function () {
-  byId('devtoolsscript-status').innerHTML =
+  devToolsScriptNameStatus.innerHTML =
     parseJSON(handleNull('total', true)).includes(nameOfDevToolsScript.value) !== true && nameOfDevToolsScript.value !== ''
       ? 'That input is valid'
       : 'That input is invalid';
@@ -801,11 +809,11 @@ byId('devtoolsScriptChooser').addEventListener('close', () => {
     nameOfDevToolsScript.value !== '' &&
     typeof nameOfDevToolsScript.value === 'string'
   ) {
+    let scriptsNum = 0;
+
     try {
       scriptsNum = parseInt(byId('devtoolsScriptChooser').returnValue, 10);
-    } catch {
-      scriptsNum = 0;
-    }
+    } catch {}
 
     if (typeof scriptsNum !== 'number' || isNaN(scriptsNum)) {
       scriptsNum = 0;
@@ -910,27 +918,28 @@ createBlankDialog.addEventListener('close', () => {
     parseJSON(createBlankDialog.returnValue).name !== '' &&
     typeof parseJSON(createBlankDialog.returnValue).name === 'string'
   ) {
+    let styleNum = 0;
+
     // Parse user input
     try {
       styleNum = parseJSON(parseJSON(createBlankDialog.returnValue).styles);
-    } catch {
-      styleNum = 0;
-    }
+    } catch {}
 
     if (typeof styleNum !== 'number' || isNaN(styleNum)) {
       styleNum = 0;
     }
 
+    let scriptsNum = 0;
+
     try {
       scriptsNum = parseJSON(parseJSON(createBlankDialog.returnValue).scripts);
-    } catch {
-      scriptsNum = 0;
-    }
+    } catch {}
 
     if (typeof scriptsNum !== 'number' || isNaN(scriptsNum)) {
       scriptsNum = 0;
     }
 
+    let includehtml = false;
     if (typeof parseJSON(parseJSON(createBlankDialog.returnValue).includehtml) !== 'boolean') {
       includehtml = true;
     }
@@ -1154,19 +1163,17 @@ deployDialog.addEventListener('close', () => {
     let finalJSONEntries = Object.entries(finalJSON);
     for (const element of finalJSONEntries) {
       if (element[1] === true) {
-        sendJSON.push(
-          Object.assign(unpack(parseJSON(localStorage.getItem('ide-' + element[0])), element[0]), {
-            settings: parseJSON(parseJSON(localStorage.getItem('ide-' + element[0])).settings)
-          })
-        );
+        sendJSON.push({
+          ...unpack(parseJSON(localStorage.getItem('ide-' + element[0])), element[0]),
+          settings: parseJSON(parseJSON(localStorage.getItem('ide-' + element[0])).settings)
+        });
       }
     }
 
-    chrome.runtime.sendMessage(
-      localStorage.getItem('extensionid'),
-      {method: 'SET', body: {panels: sendJSON, welcome: localStorage.getItem('welcome')}},
-      (response) => {}
-    );
+    chrome.runtime.sendMessage(localStorage.getItem('extensionid'), {
+      method: 'SET',
+      body: {panels: sendJSON, welcome: localStorage.getItem('welcome')}
+    });
   }
 });
 
@@ -1399,7 +1406,7 @@ byId('settings').addEventListener('click', () => {
   }
 
   let order = new Sortable(byId('sortable-items-ordering-when-initialized'), {
-    onUpdate: (event_) => {
+    onUpdate: () => {
       setGlobalSetting('orderingOfCreation', order.toArray());
     },
     animation: 150,
@@ -1546,7 +1553,7 @@ byId('sureOrNot').addEventListener('close', () => {
     return;
   }
 
-  areyousure(byId('sureOrNot').returnValue === 'true');
+  window.areyousure(byId('sureOrNot').returnValue === 'true');
 });
 
 // #endregion
