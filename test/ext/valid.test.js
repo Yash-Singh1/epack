@@ -1,4 +1,4 @@
-const valid = require('../../ext/valid');
+const valid = require('../../ext/valid.js');
 
 describe('valid function', () => {
   test('succeeds on empty array', () => {

@@ -4,11 +4,18 @@ module.exports = {
     commonjs: true,
     es2021: true
   },
-  extends: ['eslint:recommended', 'plugin:unicorn/recommended', 'plugin:jest/recommended', 'plugin:jest/style', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:unicorn/recommended',
+    'plugin:jest/recommended',
+    'plugin:jest/style',
+    'plugin:import/recommended',
+    'prettier'
+  ],
   parserOptions: {
     ecmaVersion: 12
   },
-  plugins: ['prettier', 'unicorn'],
+  plugins: ['prettier', 'unicorn', 'import'],
   overrides: [
     {
       files: 'server.js',
@@ -33,6 +40,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'error',
+    'import/extensions': ['error', 'always'],
     'accessor-pairs': 'error',
     'array-callback-return': 'error',
     'block-scoped-var': 'error',

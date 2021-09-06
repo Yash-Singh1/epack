@@ -1,4 +1,4 @@
-const unpack = require('../../www/unpack');
+const unpack = require('../../www/unpack.js');
 
 describe('unpack function', () => {
   test('takes non-empty string panel', () => {
