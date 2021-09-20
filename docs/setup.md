@@ -4,7 +4,7 @@ This documentation will go over setting up `epack`.
 
 ## Installing extension
 
-Install the chrome extension from: <https://chrome.google.com/webstore/detail/epack/blfiiekgkgfddabacmlpkckiokiagdbm>
+Install the chrome extension from: <https://chrome.google.com/webstore/detail/epack/nokogfhgpmlaimjemjdjgfccelpipacn>
 
 ## Using Site
 

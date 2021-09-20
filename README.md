@@ -7,8 +7,8 @@
   <a href="https://opensource.org/licenses/MIT">
     <img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?style=flat-square" />
   </a>
-  <a href="https://chrome.google.com/webstore/detail/epack/blfiiekgkgfddabacmlpkckiokiagdbm">
-    <img alt="Chrome Web Store Users" src="https://img.shields.io/chrome-web-store/users/blfiiekgkgfddabacmlpkckiokiagdbm?style=flat-square">
+  <a href="https://chrome.google.com/webstore/detail/epack/nokogfhgpmlaimjemjdjgfccelpipacn">
+    <img alt="Chrome Web Store Users" src="https://img.shields.io/chrome-web-store/users/nokogfhgpmlaimjemjdjgfccelpipacn?style=flat-square">
   </a>
   <a href="https://open.vscode.dev/Yash-Singh1/epack">
     <img src="https://open.vscode.dev/badges/open-in-vscode.svg" alt="open in vscode" />
