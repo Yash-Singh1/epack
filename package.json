@@ -50,7 +50,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-unicorn": "^36.0.0",
     "jest": "^27.1.0",
-    "markdownlint-cli": "^0.28.1",
+    "markdownlint-cli": "^0.29.0",
     "prettier": "^2.2.1",
     "stylelint": "^13.11.0",
     "stylelint-config-prettier": "^8.0.2",
