@@ -12,8 +12,10 @@ module.exports = {
     'plugin:import/recommended',
     'prettier'
   ],
+  parser: '@babel/eslint-parser',
   parserOptions: {
-    ecmaVersion: 12
+    ecmaVersion: 12,
+    requireConfigFile: false
   },
   plugins: ['prettier', 'unicorn', 'import'],
   overrides: [
