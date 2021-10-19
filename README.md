@@ -8,7 +8,10 @@
     <img alt="MIT License" src="https://img.shields.io/apm/l/atomic-design-ui.svg?style=flat-square" />
   </a>
   <a href="https://chrome.google.com/webstore/detail/epack/nokogfhgpmlaimjemjdjgfccelpipacn">
-    <img alt="Chrome Web Store Users" src="https://img.shields.io/chrome-web-store/users/nokogfhgpmlaimjemjdjgfccelpipacn?style=flat-square">
+    <img alt="Chrome Web Store Users" src="https://img.shields.io/chrome-web-store/users/nokogfhgpmlaimjemjdjgfccelpipacn?style=flat-square" />
+  </a>
+  <a href="https://codecov.io/gh/Yash-Singh1/epack">
+    <img alt="CodeCov Coverage Reports" src="https://codecov.io/gh/Yash-Singh1/epack/branch/main/graph/badge.svg?token=S67NI5sVbf" />
   </a>
   <a href="https://open.vscode.dev/Yash-Singh1/epack">
     <img src="https://open.vscode.dev/badges/open-in-vscode.svg" alt="open in vscode" />
