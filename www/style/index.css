@@ -11,7 +11,7 @@
   font-size: 14px;
   letter-spacing: 0.25px;
   line-height: 16px;
-  padding: 9px 24px 11px 24px;
+  padding: 9px 24px 11px;
   background-color: #fff;
   border: 1px solid #dadce0 !important;
   color: #202124;
@@ -20,7 +20,7 @@
 }
 
 .actions:hover {
-  background-color: rgba(0, 0, 255, 0.3);
+  background-color: rgba(0, 0, 255, 3%);
   transition: background-color 0.5s;
 }
 
@@ -114,7 +114,7 @@
   box-sizing: border-box;
   margin: 0;
   border: 1px solid #aaa;
-  box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 0 1px rgba(0, 0, 0, 4%);
   border-radius: 0.5em;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -137,7 +137,7 @@
 
 .select-css:focus {
   border-color: #aaa;
-  box-shadow: 0 0 1px 3px rgba(59, 153, 252, 0.7);
+  box-shadow: 0 0 1px 3px rgba(59, 153, 252, 70%);
   box-shadow: 0 0 0 3px -moz-mac-focusring;
   color: #222;
   outline: 0;
@@ -335,7 +335,7 @@ label[for='includehtml'] {
 /* #region Template Options */
 
 .template {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0%);
   border: none;
   outline: none;
   cursor: pointer;
@@ -371,7 +371,7 @@ label[for='includehtml'] {
   justify-content: space-between;
   background-color: #eee;
   border-radius: 5px;
-  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 20%);
 }
 
 #close {
@@ -432,7 +432,7 @@ code {
   margin: 0 2px;
   padding: 1px 5px;
   white-space: pre-wrap;
-  font-family: Roboto Mono, Monaco, courier, monospace;
+  font-family: 'Roboto Mono', Monaco, courier, monospace;
   color: rgb(242, 136, 50);
   font-size: 2rem !important;
 }
@@ -479,7 +479,7 @@ body:not(.dark) code {
   padding: 0.75rem 1.25rem;
   margin-bottom: -1px;
   background-color: rgb(31, 107, 194);
-  border: 5px solid rgba(0, 163, 136, 0.986);
+  border: 5px solid rgba(0, 163, 136, 98.6%);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
 }

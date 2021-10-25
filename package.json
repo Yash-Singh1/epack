@@ -54,8 +54,8 @@
     "markdownlint-cli": "^0.29.0",
     "prettier": "^2.2.1",
     "stylelint": "^14.0.0",
-    "stylelint-config-prettier": "^9.0.2",
-    "stylelint-config-standard": "^22.0.0",
+    "stylelint-config-prettier": "^9.0.3",
+    "stylelint-config-standard": "^23.0.0",
     "stylelint-prettier": "^1.2.0"
   }
 }
