@@ -61,13 +61,14 @@ chrome.runtime.onMessageExternal.addListener(async (request, sender, sendRespons
       sendResponse({success: true});
       break;
     case 'INFO':
+      const {devtoolsTheme, welcome} = await getFromStorage();
       sendResponse({
         inIncognito: chrome.extension.inIncognitoContext,
-        theme: (await getFromStorage()).devtoolsTheme,
+        theme: devtoolsTheme,
         id: chrome.runtime.id,
         tabNoneID: chrome.tabs.TAB_ID_NONE,
         windowNoneID: chrome.windows.WINDOW_ID_NONE,
-        welcome: (await getFromStorage()).welcome
+        welcome
       });
       break;
     default:
