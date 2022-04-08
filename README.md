@@ -13,9 +13,6 @@
   <a href="https://codecov.io/gh/Yash-Singh1/epack">
     <img alt="CodeCov Coverage Reports" src="https://codecov.io/gh/Yash-Singh1/epack/branch/main/graph/badge.svg?token=S67NI5sVbf" />
   </a>
-  <a href="https://open.vscode.dev/Yash-Singh1/epack">
-    <img src="https://open.vscode.dev/badges/open-in-vscode.svg" alt="open in vscode" />
-  </a>
 </p>
 
 <br />
