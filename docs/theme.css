@@ -45,3 +45,8 @@ nav.app-nav > ul > li > a {
 .docsify-copy-code-button {
   border-radius: 10px !important;
 }
+
+body,
+.sidebar {
+  background-color: transparent !important;
+}
