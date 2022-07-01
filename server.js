@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 process.title = 'epack-site';
-const fs = require('fs');
+const fs = require('node:fs');
 const express = require('express');
 const app = express();
 

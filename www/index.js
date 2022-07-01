@@ -230,9 +230,7 @@ function setLocalSetting(panelName, query, value) {
  * @returns {any} The setting’s final value
  */
 function getLocalSetting(panelName, query) {
-  return parseJSON(localStorage.getItem(panelName)).settings[query]
-    ? parseJSON(localStorage.getItem(panelName)).settings[query]
-    : globalTemplate[query];
+  return parseJSON(localStorage.getItem(panelName)).settings[query] || globalTemplate[query];
 }
 
 /**
