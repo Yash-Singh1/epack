@@ -8,10 +8,16 @@ const app = express();
 const port = process.env.PORT || 1534;
 const rootDocs = new Set(['README.md', 'ROADMAP.md', 'CODE_OF_CONDUCT.md', 'CONTRIBUTING.md', 'LICENSE.md', 'ARCHITECTURE.md']);
 
+const memoizeLs = {};
+
 app.get('/*', (request, response) => {
   // A directory is trying to be read
   if (request.path.endsWith('/') && request.path !== '/playground/' && request.path !== '/') {
-    return response.send(fs.readdirSync(`.${request.path}`));
+    if (memoizeLs[request.path]) {
+      return response.send(memoizeLs[request.path]);
+    }
+    memoizeLs[request.path] = fs.readdirSync(`.${request.path}`);
+    response.send(memoizeLs[request.path]);
   }
 
   if (request.path === '/index.html') {
